@@ -19,10 +19,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard/Outils');
     })->name('dashboard.outils');
 
-    Route::get('dashboard/tags', function () {
-        return Inertia::render('dashboard/Tags');
-    })->name('dashboard.tags');
-
     Route::get('dashboard/comparatifs', function () {
         return Inertia::render('dashboard/Comparatifs');
     })->name('dashboard.comparatifs');

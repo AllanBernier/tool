@@ -7,7 +7,7 @@ test('guests are redirected to login for admin sections', function (string $rout
 })->with([
     'outils' => 'dashboard.outils',
     'categories' => 'admin.categories.index',
-    'tags' => 'dashboard.tags',
+    'tags' => 'admin.tags.index',
     'comparatifs' => 'dashboard.comparatifs',
 ]);
 
@@ -21,7 +21,7 @@ test('authenticated users can visit admin sections', function (string $route) {
     'dashboard' => 'dashboard',
     'outils' => 'dashboard.outils',
     'categories' => 'admin.categories.index',
-    'tags' => 'dashboard.tags',
+    'tags' => 'admin.tags.index',
     'comparatifs' => 'dashboard.comparatifs',
 ]);
 
@@ -31,6 +31,6 @@ test('admin routes have correct URLs', function (string $route, string $expected
     'dashboard' => ['dashboard', '/dashboard'],
     'outils' => ['dashboard.outils', '/dashboard/outils'],
     'categories' => ['admin.categories.index', '/dashboard/categories'],
-    'tags' => ['dashboard.tags', '/dashboard/tags'],
+    'tags' => ['admin.tags.index', '/dashboard/tags'],
     'comparatifs' => ['dashboard.comparatifs', '/dashboard/comparatifs'],
 ]);

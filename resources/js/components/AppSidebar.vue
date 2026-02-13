@@ -16,8 +16,9 @@ import {
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
 import { dashboard } from '@/routes';
-import { outils, tags, comparatifs } from '@/routes/dashboard';
+import { outils, comparatifs } from '@/routes/dashboard';
 import { index as categoriesIndex } from '@/routes/admin/categories';
+import { index as tagsIndex } from '@/routes/admin/tags';
 
 const mainNavItems: NavItem[] = [
     {
@@ -37,7 +38,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Tags',
-        href: tags(),
+        href: tagsIndex(),
         icon: Tags,
     },
     {

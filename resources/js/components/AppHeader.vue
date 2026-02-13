@@ -37,7 +37,9 @@ import { getInitials } from '@/composables/useInitials';
 import { toUrl } from '@/lib/utils';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { dashboard } from '@/routes';
-import { outils, categories, tags, comparatifs } from '@/routes/dashboard';
+import { outils, comparatifs } from '@/routes/dashboard';
+import { index as categoriesIndex } from '@/routes/admin/categories';
+import { index as tagsIndex } from '@/routes/admin/tags';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -67,12 +69,12 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Categories',
-        href: categories(),
+        href: categoriesIndex(),
         icon: FolderTree,
     },
     {
         title: 'Tags',
-        href: tags(),
+        href: tagsIndex(),
         icon: Tags,
     },
     {
