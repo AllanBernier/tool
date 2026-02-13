@@ -1,5 +1,7 @@
 # Spec 005: Tool Model
 
+## Status: COMPLETE
+
 ## Priority: P0
 
 ## Description

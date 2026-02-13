@@ -54,6 +54,6 @@ class Tag extends Model
      */
     public function tools(): BelongsToMany
     {
-        return $this->belongsToMany(Tool::class);
+        return $this->belongsToMany(Tool::class, 'tool_tag');
     }
 }
