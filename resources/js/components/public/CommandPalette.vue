@@ -174,7 +174,7 @@ defineExpose({ open });
     <Dialog :open="open" @update:open="handleOpenChange">
         <DialogContent
             :show-close-button="false"
-            class="top-[20%] translate-y-0 gap-0 overflow-hidden p-0 sm:max-w-lg"
+            class="top-[20%] w-[calc(100%-2rem)] translate-y-0 gap-0 overflow-hidden p-0 sm:max-w-lg"
             @keydown="handleKeydown"
         >
             <DialogTitle class="sr-only">Rechercher</DialogTitle>
@@ -243,7 +243,7 @@ defineExpose({ open });
                     </div>
                 </template>
             </div>
-            <div class="flex items-center justify-end gap-3 border-t border-border px-3 py-2 text-xs text-muted-foreground">
+            <div class="hidden items-center justify-end gap-3 border-t border-border px-3 py-2 text-xs text-muted-foreground sm:flex">
                 <span class="flex items-center gap-1">
                     <kbd class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]">↑↓</kbd>
                     naviguer

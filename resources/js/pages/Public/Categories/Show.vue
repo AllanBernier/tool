@@ -83,7 +83,7 @@ const iconComponent = computed<Component | null>(() => {
             </div>
 
             <!-- Filters -->
-            <div class="mb-8 flex flex-wrap gap-3">
+            <div class="mb-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
                 <select
                     v-model="platform"
                     class="h-9 rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"

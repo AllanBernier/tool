@@ -85,7 +85,7 @@ const sharedFeatures = (() => {
                     Comparaison des fonctionnalités
                 </h2>
                 <div class="overflow-x-auto rounded-xl border border-border">
-                    <table class="w-full text-sm">
+                    <table class="min-w-[500px] w-full text-sm">
                         <thead>
                             <tr class="border-b border-border bg-muted/50">
                                 <th class="px-4 py-3 text-left font-semibold text-foreground">

@@ -25,7 +25,7 @@ function openSearch(): void {
 </script>
 
 <template>
-    <div class="flex min-h-screen flex-col bg-background text-foreground">
+    <div class="flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground">
         <PublicHeader @open-search="openSearch" />
         <main class="flex-1">
             <slot />
