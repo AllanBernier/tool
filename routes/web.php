@@ -19,10 +19,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard/Outils');
     })->name('dashboard.outils');
 
-    Route::get('dashboard/categories', function () {
-        return Inertia::render('dashboard/Categories');
-    })->name('dashboard.categories');
-
     Route::get('dashboard/tags', function () {
         return Inertia::render('dashboard/Tags');
     })->name('dashboard.tags');
@@ -33,3 +29,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/settings.php';
+require __DIR__.'/admin.php';

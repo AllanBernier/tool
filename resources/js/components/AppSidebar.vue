@@ -16,7 +16,8 @@ import {
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
 import { dashboard } from '@/routes';
-import { outils, categories, tags, comparatifs } from '@/routes/dashboard';
+import { outils, tags, comparatifs } from '@/routes/dashboard';
+import { index as categoriesIndex } from '@/routes/admin/categories';
 
 const mainNavItems: NavItem[] = [
     {
@@ -31,7 +32,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Categories',
-        href: categories(),
+        href: categoriesIndex(),
         icon: FolderTree,
     },
     {
