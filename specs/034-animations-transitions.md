@@ -1,5 +1,7 @@
 # Spec 034: Animations & Transitions
 
+## Status: COMPLETE
+
 ## Priority: P2
 
 ## Description
