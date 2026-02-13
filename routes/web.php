@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublicCategoryController;
+use App\Http\Controllers\PublicComparisonController;
 use App\Http\Controllers\PublicToolController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,6 +15,9 @@ Route::get('/outil/{tool:slug}', [PublicToolController::class, 'show'])->name('t
 
 Route::get('/categories', [PublicCategoryController::class, 'index'])->name('categories.index');
 Route::get('/categorie/{category:slug}', [PublicCategoryController::class, 'show'])->name('categories.show');
+
+Route::get('/comparatifs', [PublicComparisonController::class, 'index'])->name('comparisons.index');
+Route::get('/comparatif/{comparison:slug}', [PublicComparisonController::class, 'show'])->name('comparisons.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
