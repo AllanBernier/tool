@@ -367,15 +367,13 @@ const generationStatusLabels: Record<string, string> = {
                                 link.active,
                         }"
                     >
-                        <Link :href="link.url" v-html="link.label" />
+                        <Link :href="link.url">
+                            <span v-html="link.label" />
+                        </Link>
                     </Button>
-                    <Button
-                        v-else
-                        variant="outline"
-                        size="sm"
-                        disabled
-                        v-html="link.label"
-                    />
+                    <Button v-else variant="outline" size="sm" disabled>
+                        <span v-html="link.label" />
+                    </Button>
                 </template>
             </div>
         </div>

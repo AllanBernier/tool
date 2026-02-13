@@ -174,9 +174,10 @@ const platforms = [
                                 ? 'border-primary bg-primary text-primary-foreground'
                                 : 'border-border bg-background text-foreground hover:bg-accent'
                         "
-                        v-html="link.label"
                         preserve-state
-                    />
+                    >
+                        <span v-html="link.label" />
+                    </Link>
                     <span
                         v-else
                         class="inline-flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground"
