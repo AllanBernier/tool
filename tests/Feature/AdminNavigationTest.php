@@ -8,7 +8,7 @@ test('guests are redirected to login for admin sections', function (string $rout
     'outils' => 'admin.outils.index',
     'categories' => 'admin.categories.index',
     'tags' => 'admin.tags.index',
-    'comparatifs' => 'dashboard.comparatifs',
+    'comparatifs' => 'admin.comparatifs.index',
 ]);
 
 test('authenticated users can visit admin sections', function (string $route) {
@@ -22,7 +22,7 @@ test('authenticated users can visit admin sections', function (string $route) {
     'outils' => 'admin.outils.index',
     'categories' => 'admin.categories.index',
     'tags' => 'admin.tags.index',
-    'comparatifs' => 'dashboard.comparatifs',
+    'comparatifs' => 'admin.comparatifs.index',
 ]);
 
 test('admin routes have correct URLs', function (string $route, string $expectedUrl) {
@@ -32,5 +32,5 @@ test('admin routes have correct URLs', function (string $route, string $expected
     'outils' => ['admin.outils.index', '/dashboard/outils'],
     'categories' => ['admin.categories.index', '/dashboard/categories'],
     'tags' => ['admin.tags.index', '/dashboard/tags'],
-    'comparatifs' => ['dashboard.comparatifs', '/dashboard/comparatifs'],
+    'comparatifs' => ['admin.comparatifs.index', '/dashboard/comparatifs'],
 ]);

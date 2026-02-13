@@ -16,10 +16,10 @@ import {
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
 import { dashboard } from '@/routes';
-import { comparatifs } from '@/routes/dashboard';
 import { index as toolsIndex } from '@/routes/admin/outils';
 import { index as categoriesIndex } from '@/routes/admin/categories';
 import { index as tagsIndex } from '@/routes/admin/tags';
+import { index as comparisonsIndex } from '@/routes/admin/comparatifs';
 
 const mainNavItems: NavItem[] = [
     {
@@ -44,7 +44,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Comparatifs',
-        href: comparatifs(),
+        href: comparisonsIndex(),
         icon: GitCompareArrows,
     },
 ];
