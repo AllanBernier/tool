@@ -1,5 +1,7 @@
 # Spec 033: Dark/Light Mode
 
+## Status: COMPLETE
+
 ## Priority: P2
 
 ## Description
