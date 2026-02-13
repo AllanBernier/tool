@@ -3,17 +3,20 @@ import { Link } from '@inertiajs/vue3';
 import { ExternalLink } from 'lucide-vue-next';
 import AppHead from '@/components/AppHead.vue';
 import type { SeoMeta } from '@/components/AppHead.vue';
+import JsonLd from '@/components/JsonLd.vue';
 import FaqAccordion from '@/components/public/FaqAccordion.vue';
 import MarkdownContent from '@/components/public/MarkdownContent.vue';
 import PlatformBadge from '@/components/public/PlatformBadge.vue';
 import PricingTable from '@/components/public/PricingTable.vue';
 import ProsCons from '@/components/public/ProsCons.vue';
+import PublicBreadcrumbs from '@/components/public/PublicBreadcrumbs.vue';
 import TagBadge from '@/components/public/TagBadge.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Comparison, Tool } from '@/types';
+import { computed } from 'vue';
 
 const props = defineProps<{
     seo: SeoMeta;
@@ -34,13 +37,87 @@ const comparisons = [
         otherTool: c.tool_a,
     })),
 ];
+
+const breadcrumbs = computed(() => [
+    ...(props.tool.category
+        ? [{ label: props.tool.category.name, href: `/categorie/${props.tool.category.slug}` }]
+        : []),
+    { label: props.tool.name },
+]);
+
+const jsonLdSchemas = computed(() => {
+    const schemas: Record<string, unknown>[] = [];
+
+    const softwareApp: Record<string, unknown> = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: props.tool.name,
+        url: props.seo.canonical,
+        description: props.tool.description,
+        applicationCategory: props.tool.category?.name ?? 'DeveloperApplication',
+    };
+    if (props.tool.platforms?.length) {
+        softwareApp.operatingSystem = props.tool.platforms.join(', ');
+    }
+    if (props.tool.pricing?.length) {
+        softwareApp.offers = props.tool.pricing.map((plan) => ({
+            '@type': 'Offer',
+            name: plan.name,
+            price: plan.price,
+            priceCurrency: 'USD',
+        }));
+    }
+    schemas.push(softwareApp);
+
+    if (props.tool.faq?.length) {
+        schemas.push({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: props.tool.faq.map((item) => ({
+                '@type': 'Question',
+                name: item.question,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: item.answer,
+                },
+            })),
+        });
+    }
+
+    schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Accueil', item: props.seo.canonical.replace(/\/outil\/.*/, '') },
+            ...(props.tool.category
+                ? [{
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: props.tool.category.name,
+                    item: props.seo.canonical.replace(/\/outil\/.*/, `/categorie/${props.tool.category.slug}`),
+                }]
+                : []),
+            {
+                '@type': 'ListItem',
+                position: props.tool.category ? 3 : 2,
+                name: props.tool.name,
+                item: props.seo.canonical,
+            },
+        ],
+    });
+
+    return schemas;
+});
 </script>
 
 <template>
     <PublicLayout>
         <AppHead :seo="seo" />
+        <JsonLd :schema="jsonLdSchemas" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+            <PublicBreadcrumbs :items="breadcrumbs" />
+
             <!-- Header -->
             <div class="mb-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center">
                 <div class="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted/50 sm:size-24">

@@ -1,5 +1,7 @@
 # Spec 031: JSON-LD Structured Data
 
+## Status: COMPLETE
+
 ## Priority: P1
 
 ## Description

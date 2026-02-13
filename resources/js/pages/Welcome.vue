@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/vue3';
 import { ArrowRight, Sparkles } from 'lucide-vue-next';
 import AppHead from '@/components/AppHead.vue';
 import type { SeoMeta } from '@/components/AppHead.vue';
+import JsonLd from '@/components/JsonLd.vue';
 import CategoryCard from '@/components/public/CategoryCard.vue';
 import ComparisonCard from '@/components/public/ComparisonCard.vue';
 import TagBadge from '@/components/public/TagBadge.vue';
@@ -10,19 +11,45 @@ import ToolCard from '@/components/public/ToolCard.vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Category, Comparison, Tag, Tool } from '@/types';
+import { computed } from 'vue';
 
-defineProps<{
+const props = defineProps<{
     seo: SeoMeta;
     popularTools: Tool[];
     trendingComparisons: Comparison[];
     categories: Category[];
     popularTags: Tag[];
 }>();
+
+const jsonLdSchemas = computed(() => [
+    {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Tool',
+        url: props.seo.canonical,
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: {
+                '@type': 'EntryPoint',
+                urlTemplate: `${props.seo.canonical}search?q={search_term_string}`,
+            },
+            'query-input': 'required name=search_term_string',
+        },
+    },
+    {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Tool',
+        url: props.seo.canonical,
+        logo: props.seo.ogImage,
+    },
+]);
 </script>
 
 <template>
     <PublicLayout>
         <AppHead :seo="seo" />
+        <JsonLd :schema="jsonLdSchemas" />
 
         <!-- Hero Section -->
         <section class="relative overflow-hidden border-b border-border/60">

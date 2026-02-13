@@ -45,6 +45,8 @@ export type Comparison = {
     tool_b: Tool;
     is_published: boolean;
     generation_status: string;
+    published_at: string | null;
+    updated_at: string | null;
 };
 
 export type PricingPlan = {

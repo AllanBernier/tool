@@ -3,9 +3,12 @@ import { Link } from '@inertiajs/vue3';
 import { TagIcon } from 'lucide-vue-next';
 import AppHead from '@/components/AppHead.vue';
 import type { SeoMeta } from '@/components/AppHead.vue';
+import JsonLd from '@/components/JsonLd.vue';
+import PublicBreadcrumbs from '@/components/public/PublicBreadcrumbs.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Tag, Tool } from '@/types';
+import { computed } from 'vue';
 
 type PaginatedTools = {
     data: Tool[];
@@ -15,18 +18,48 @@ type PaginatedTools = {
     total: number;
 };
 
-defineProps<{
+const props = defineProps<{
     seo: SeoMeta;
     tag: Tag;
     tools: PaginatedTools;
 }>();
+
+const breadcrumbItems = [
+    { label: 'Tags', href: '/outils' },
+    { label: props.tag.name },
+];
+
+const jsonLdSchemas = computed(() => {
+    const baseUrl = props.seo.canonical.replace(/\/tag\/.*/, '');
+    return [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: `Outils ${props.tag.name}`,
+            url: props.seo.canonical,
+            numberOfItems: props.tools.total,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Accueil', item: baseUrl },
+                { '@type': 'ListItem', position: 2, name: 'Tags', item: `${baseUrl}/outils` },
+                { '@type': 'ListItem', position: 3, name: props.tag.name, item: props.seo.canonical },
+            ],
+        },
+    ];
+});
 </script>
 
 <template>
     <PublicLayout>
         <AppHead :seo="seo" />
+        <JsonLd :schema="jsonLdSchemas" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+            <PublicBreadcrumbs :items="breadcrumbItems" />
+
             <!-- Header -->
             <div class="mb-8 flex items-center gap-4">
                 <div class="flex size-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">

@@ -3,12 +3,15 @@ import { Link } from '@inertiajs/vue3';
 import { ExternalLink } from 'lucide-vue-next';
 import AppHead from '@/components/AppHead.vue';
 import type { SeoMeta } from '@/components/AppHead.vue';
+import JsonLd from '@/components/JsonLd.vue';
 import MarkdownContent from '@/components/public/MarkdownContent.vue';
 import PricingTable from '@/components/public/PricingTable.vue';
+import PublicBreadcrumbs from '@/components/public/PublicBreadcrumbs.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Comparison, Tool } from '@/types';
+import { computed } from 'vue';
 
 const props = defineProps<{
     seo: SeoMeta;
@@ -17,6 +20,43 @@ const props = defineProps<{
         tool_b: Tool;
     };
 }>();
+
+const breadcrumbItems = [
+    { label: 'Comparatifs', href: '/comparatifs' },
+    { label: `${props.comparison.tool_a.name} vs ${props.comparison.tool_b.name}` },
+];
+
+const jsonLdSchemas = computed(() => {
+    const baseUrl = props.seo.canonical.replace(/\/comparatif\/.*/, '');
+    const schemas: Record<string, unknown>[] = [];
+
+    schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: `${props.comparison.tool_a.name} vs ${props.comparison.tool_b.name}`,
+        description: props.seo.description,
+        url: props.seo.canonical,
+        datePublished: props.comparison.published_at,
+        dateModified: props.comparison.updated_at,
+    });
+
+    schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Accueil', item: baseUrl },
+            { '@type': 'ListItem', position: 2, name: 'Comparatifs', item: `${baseUrl}/comparatifs` },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: `${props.comparison.tool_a.name} vs ${props.comparison.tool_b.name}`,
+                item: props.seo.canonical,
+            },
+        ],
+    });
+
+    return schemas;
+});
 
 const sharedFeatures = (() => {
     const featuresA = props.comparison.tool_a.features ?? [];
@@ -36,8 +76,11 @@ const sharedFeatures = (() => {
 <template>
     <PublicLayout>
         <AppHead :seo="seo" />
+        <JsonLd :schema="jsonLdSchemas" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+            <PublicBreadcrumbs :items="breadcrumbItems" />
+
             <!-- Header -->
             <div class="mb-12 flex flex-col items-center gap-6 text-center">
                 <div class="flex items-center gap-6 sm:gap-8">

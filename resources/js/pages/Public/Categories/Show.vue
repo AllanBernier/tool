@@ -4,7 +4,9 @@ import { SlidersHorizontal } from 'lucide-vue-next';
 import * as icons from 'lucide-vue-next';
 import AppHead from '@/components/AppHead.vue';
 import type { SeoMeta } from '@/components/AppHead.vue';
+import JsonLd from '@/components/JsonLd.vue';
 import CategoryCard from '@/components/public/CategoryCard.vue';
+import PublicBreadcrumbs from '@/components/public/PublicBreadcrumbs.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Category, Tag, Tool } from '@/types';
@@ -63,13 +65,44 @@ const iconComponent = computed<Component | null>(() => {
     if (!iconName) return null;
     return (icons as Record<string, Component>)[iconName] ?? null;
 });
+
+const breadcrumbItems = [
+    { label: 'Catégories', href: '/categories' },
+    { label: props.category.name },
+];
+
+const jsonLdSchemas = computed(() => {
+    const baseUrl = props.seo.canonical.replace(/\/categorie\/.*/, '');
+    return [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: props.category.name,
+            description: props.category.description,
+            url: props.seo.canonical,
+            numberOfItems: props.tools.data.length,
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Accueil', item: baseUrl },
+                { '@type': 'ListItem', position: 2, name: 'Catégories', item: `${baseUrl}/categories` },
+                { '@type': 'ListItem', position: 3, name: props.category.name, item: props.seo.canonical },
+            ],
+        },
+    ];
+});
 </script>
 
 <template>
     <PublicLayout>
         <AppHead :seo="seo" />
+        <JsonLd :schema="jsonLdSchemas" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+            <PublicBreadcrumbs :items="breadcrumbItems" />
+
             <!-- Header -->
             <div class="mb-8 flex items-center gap-4">
                 <div v-if="iconComponent" class="flex size-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
