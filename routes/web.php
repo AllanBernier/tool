@@ -10,8 +10,26 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::get('dashboard/outils', function () {
+        return Inertia::render('dashboard/Outils');
+    })->name('dashboard.outils');
+
+    Route::get('dashboard/categories', function () {
+        return Inertia::render('dashboard/Categories');
+    })->name('dashboard.categories');
+
+    Route::get('dashboard/tags', function () {
+        return Inertia::render('dashboard/Tags');
+    })->name('dashboard.tags');
+
+    Route::get('dashboard/comparatifs', function () {
+        return Inertia::render('dashboard/Comparatifs');
+    })->name('dashboard.comparatifs');
+});
 
 require __DIR__.'/settings.php';
