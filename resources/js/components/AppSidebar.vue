@@ -16,7 +16,8 @@ import {
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
 import { dashboard } from '@/routes';
-import { outils, comparatifs } from '@/routes/dashboard';
+import { comparatifs } from '@/routes/dashboard';
+import { index as toolsIndex } from '@/routes/admin/outils';
 import { index as categoriesIndex } from '@/routes/admin/categories';
 import { index as tagsIndex } from '@/routes/admin/tags';
 
@@ -28,7 +29,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Outils',
-        href: outils(),
+        href: toolsIndex(),
         icon: Wrench,
     },
     {
