@@ -18,6 +18,10 @@ import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { home } from '@/routes';
 import type { NavItem } from '@/types';
 
+const emit = defineEmits<{
+    openSearch: [];
+}>();
+
 const { appearance, updateAppearance } = useAppearance();
 const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
 
@@ -106,6 +110,7 @@ function toggleAppearance(): void {
                     variant="outline"
                     size="sm"
                     class="hidden gap-2 text-muted-foreground sm:flex"
+                    @click="emit('openSearch')"
                 >
                     <Search class="size-4" />
                     <span class="text-sm">Rechercher...</span>
@@ -119,6 +124,7 @@ function toggleAppearance(): void {
                     variant="ghost"
                     size="icon"
                     class="sm:hidden"
+                    @click="emit('openSearch')"
                 >
                     <Search class="size-5" />
                     <span class="sr-only">Rechercher</span>

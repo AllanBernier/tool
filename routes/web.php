@@ -6,10 +6,13 @@ use App\Http\Controllers\PublicCategoryController;
 use App\Http\Controllers\PublicComparisonController;
 use App\Http\Controllers\PublicTagController;
 use App\Http\Controllers\PublicToolController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', HomeController::class)->name('home');
+
+Route::get('/search', SearchController::class)->name('search');
 
 Route::get('/outils', [PublicToolController::class, 'index'])->name('tools.index');
 Route::get('/outil/{tool:slug}', [PublicToolController::class, 'show'])->name('tools.show');
