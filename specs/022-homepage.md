@@ -1,5 +1,7 @@
 # Spec 022: Homepage
 
+## Status: COMPLETE
+
 ## Priority: P1
 
 ## Description
