@@ -125,6 +125,8 @@ const jsonLdSchemas = computed(() => {
                         :src="tool.logo_url"
                         :alt="`Logo ${tool.name}`"
                         class="size-16 object-contain sm:size-20"
+                        width="80"
+                        height="80"
                     />
                 </div>
                 <div class="flex-1">

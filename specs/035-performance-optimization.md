@@ -1,5 +1,7 @@
 # Spec 035: Performance Optimization
 
+## Status: COMPLETE
+
 ## Priority: P2
 
 ## Description

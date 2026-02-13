@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -85,6 +86,17 @@ class Tool extends Model
                 $tool->slug = Str::slug($tool->name);
             }
         });
+
+        static::saved(fn () => self::flushPublicCaches());
+        static::deleted(fn () => self::flushPublicCaches());
+    }
+
+    public static function flushPublicCaches(): void
+    {
+        Cache::forget('home:popular_tools');
+        Cache::forget('home:categories');
+        Cache::forget('home:popular_tags');
+        Cache::forget('sitemap');
     }
 
     /**

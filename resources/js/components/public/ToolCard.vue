@@ -30,6 +30,8 @@ defineProps<{
                         :src="tool.logo_url"
                         :alt="`Logo ${tool.name}`"
                         class="size-10 object-contain"
+                        width="40"
+                        height="40"
                         loading="lazy"
                     />
                 </div>

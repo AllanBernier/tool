@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Comparison extends Model
@@ -62,6 +63,16 @@ class Comparison extends Model
                     $comparison->slug = Str::slug($toolA->name).'-vs-'.Str::slug($toolB->name);
                 }
             }
+        });
+
+        static::saved(function () {
+            Cache::forget('home:trending_comparisons');
+            Cache::forget('sitemap');
+        });
+
+        static::deleted(function () {
+            Cache::forget('home:trending_comparisons');
+            Cache::forget('sitemap');
         });
     }
 

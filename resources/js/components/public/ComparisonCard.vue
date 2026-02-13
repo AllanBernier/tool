@@ -20,6 +20,8 @@ defineProps<{
                             :src="comparison.tool_a.logo_url"
                             :alt="`Logo ${comparison.tool_a.name}`"
                             class="size-10 object-contain"
+                            width="40"
+                            height="40"
                             loading="lazy"
                         />
                     </div>
@@ -36,6 +38,8 @@ defineProps<{
                             :src="comparison.tool_b.logo_url"
                             :alt="`Logo ${comparison.tool_b.name}`"
                             class="size-10 object-contain"
+                            width="40"
+                            height="40"
                             loading="lazy"
                         />
                     </div>

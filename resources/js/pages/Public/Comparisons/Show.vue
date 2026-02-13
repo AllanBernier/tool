@@ -90,7 +90,8 @@ const sharedFeatures = (() => {
                                 :src="comparison.tool_a.logo_url"
                                 :alt="`Logo ${comparison.tool_a.name}`"
                                 class="size-12 object-contain sm:size-16"
-                                loading="lazy"
+                                width="64"
+                                height="64"
                             />
                         </div>
                         <span class="text-lg font-semibold text-foreground sm:text-xl">
@@ -106,7 +107,8 @@ const sharedFeatures = (() => {
                                 :src="comparison.tool_b.logo_url"
                                 :alt="`Logo ${comparison.tool_b.name}`"
                                 class="size-12 object-contain sm:size-16"
-                                loading="lazy"
+                                width="64"
+                                height="64"
                             />
                         </div>
                         <span class="text-lg font-semibold text-foreground sm:text-xl">
@@ -224,6 +226,8 @@ const sharedFeatures = (() => {
                                 :src="comparison.tool_a.logo_url"
                                 :alt="`Logo ${comparison.tool_a.name}`"
                                 class="size-10 object-contain"
+                                width="40"
+                                height="40"
                                 loading="lazy"
                             />
                         </div>
@@ -247,6 +251,8 @@ const sharedFeatures = (() => {
                                 :src="comparison.tool_b.logo_url"
                                 :alt="`Logo ${comparison.tool_b.name}`"
                                 class="size-10 object-contain"
+                                width="40"
+                                height="40"
                                 loading="lazy"
                             />
                         </div>
