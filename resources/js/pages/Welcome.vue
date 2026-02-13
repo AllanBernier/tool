@@ -7,6 +7,7 @@ import JsonLd from '@/components/JsonLd.vue';
 import CategoryCard from '@/components/public/CategoryCard.vue';
 import ComparisonCard from '@/components/public/ComparisonCard.vue';
 import ScrollReveal from '@/components/public/ScrollReveal.vue';
+import SponsorPlaceholder from '@/components/public/SponsorPlaceholder.vue';
 import TagBadge from '@/components/public/TagBadge.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import { Button } from '@/components/ui/button';
@@ -105,6 +106,7 @@ const jsonLdSchemas = computed(() => [
                         <ArrowRight class="size-4" />
                     </Link>
                 </div>
+                <SponsorPlaceholder variant="banner" class="mb-8" />
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     <ToolCard
                         v-for="tool in popularTools"

@@ -31,6 +31,7 @@ class PublicCategoryController extends Controller
             ->with(['category', 'tags'])
             ->when($request->input('platform'), fn ($query, $platform) => $query->whereJsonContains('platforms', $platform))
             ->when($request->input('tag'), fn ($query, $tagSlug) => $query->whereHas('tags', fn ($q) => $q->where('slug', $tagSlug)))
+            ->orderByDesc('is_sponsored')
             ->when($request->input('sort') === 'alpha', fn ($query) => $query->orderBy('name'), fn ($query) => $query->latest('published_at'))
             ->paginate(18)
             ->withQueryString();

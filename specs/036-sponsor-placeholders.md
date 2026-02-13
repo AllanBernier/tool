@@ -1,5 +1,7 @@
 # Spec 036: Sponsor Placeholders
 
+## Status: COMPLETE
+
 ## Priority: P2
 
 ## Description

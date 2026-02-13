@@ -19,6 +19,7 @@ class PublicToolController extends Controller
             ->when($request->input('category'), fn ($query, $categorySlug) => $query->whereHas('category', fn ($q) => $q->where('slug', $categorySlug)))
             ->when($request->input('platform'), fn ($query, $platform) => $query->whereJsonContains('platforms', $platform))
             ->when($request->input('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+            ->orderByDesc('is_sponsored')
             ->when($request->input('sort') === 'alpha', fn ($query) => $query->orderBy('name'), fn ($query) => $query->latest('published_at'))
             ->paginate(18)
             ->withQueryString();

@@ -7,6 +7,7 @@ import type { SeoMeta } from '@/components/AppHead.vue';
 import JsonLd from '@/components/JsonLd.vue';
 import CategoryCard from '@/components/public/CategoryCard.vue';
 import PublicBreadcrumbs from '@/components/public/PublicBreadcrumbs.vue';
+import SponsorPlaceholder from '@/components/public/SponsorPlaceholder.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Category, Tag, Tool } from '@/types';
@@ -153,6 +154,9 @@ const jsonLdSchemas = computed(() => {
                     </option>
                 </select>
             </div>
+
+            <!-- Sponsor -->
+            <SponsorPlaceholder v-if="tools.current_page === 1" variant="banner" class="mb-6" />
 
             <!-- Tools Grid -->
             <div v-if="tools.data.length" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
