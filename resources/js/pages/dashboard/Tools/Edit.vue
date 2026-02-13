@@ -14,6 +14,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { type BreadcrumbItem } from '@/types';
 import { index as toolsIndex, update } from '@/routes/admin/outils';
 import { togglePublish } from '@/routes/admin/tools';
+import { tool as generateTool, alternatives as suggestAlternatives, logo as fetchLogo } from '@/routes/admin/generate';
 import AlternativesPanel from './AlternativesPanel.vue';
 import ComparisonsPanel from './ComparisonsPanel.vue';
 
@@ -185,6 +186,18 @@ function doTogglePublish() {
     router.post(togglePublish.url(props.tool.slug), {}, { preserveScroll: true });
 }
 
+function doGenerateTool() {
+    router.post(generateTool.url(props.tool.slug), {}, { preserveScroll: true });
+}
+
+function doFetchLogo() {
+    router.post(fetchLogo.url(props.tool.slug), {}, { preserveScroll: true });
+}
+
+function doSuggestAlternatives() {
+    router.post(suggestAlternatives.url(props.tool.slug), {}, { preserveScroll: true });
+}
+
 const generationStatusColors: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
     generating: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
@@ -225,8 +238,13 @@ const generationStatusLabels: Record<string, string> = {
                     <Button variant="outline" size="sm" @click="doTogglePublish">
                         {{ tool.is_published ? 'Dépublier' : 'Publier' }}
                     </Button>
-                    <Button variant="outline" size="sm" disabled>
-                        Générer avec l'IA
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        :disabled="tool.generation_status === 'generating'"
+                        @click="doGenerateTool"
+                    >
+                        {{ tool.generation_status === 'generating' ? 'Génération en cours...' : 'Générer avec l\'IA' }}
                     </Button>
                 </div>
             </div>
@@ -241,6 +259,9 @@ const generationStatusLabels: Record<string, string> = {
                 <div v-else class="flex size-16 items-center justify-center rounded-lg bg-muted">
                     <Image class="size-8 text-muted-foreground" />
                 </div>
+                <Button variant="outline" size="sm" @click="doFetchLogo">
+                    Récupérer le logo
+                </Button>
             </div>
 
             <form class="space-y-8" @submit.prevent="submit">

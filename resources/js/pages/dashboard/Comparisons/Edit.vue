@@ -13,6 +13,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { type BreadcrumbItem } from '@/types';
 import { index as comparisonsIndex, update } from '@/routes/admin/comparatifs';
 import { togglePublish } from '@/routes/admin/comparisons';
+import { comparison as generateComparison } from '@/routes/admin/generate';
 
 type ToolInfo = {
     id: string;
@@ -64,6 +65,10 @@ function doTogglePublish() {
     router.post(togglePublish.url(props.comparison.slug), {}, { preserveScroll: true });
 }
 
+function doGenerateComparison() {
+    router.post(generateComparison.url(props.comparison.slug), {}, { preserveScroll: true });
+}
+
 const generationStatusColors: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
     generating: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
@@ -104,8 +109,13 @@ const generationStatusLabels: Record<string, string> = {
                     <Button variant="outline" size="sm" @click="doTogglePublish">
                         {{ comparison.is_published ? 'Dépublier' : 'Publier' }}
                     </Button>
-                    <Button variant="outline" size="sm" disabled>
-                        Générer avec l'IA
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        :disabled="comparison.generation_status === 'generating'"
+                        @click="doGenerateComparison"
+                    >
+                        {{ comparison.generation_status === 'generating' ? 'Génération en cours...' : 'Générer avec l\'IA' }}
                     </Button>
                 </div>
             </div>

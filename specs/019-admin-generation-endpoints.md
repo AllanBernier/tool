@@ -27,4 +27,6 @@ Create the GenerationController for dispatching AI generation jobs from the admi
 ## References
 - TASKS.md: T-060 to T-064
 
+## Status: COMPLETE
+
 **Output when complete:** `<promise>DONE</promise>`

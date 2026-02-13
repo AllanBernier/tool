@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { alternatives as suggestAlternatives, tool as generateTool } from '@/routes/admin/generate';
 
 type Alternative = {
     id: string;
@@ -10,7 +12,7 @@ type Alternative = {
     generation_status: string;
 };
 
-defineProps<{
+const props = defineProps<{
     alternatives: Alternative[];
     toolSlug: string;
 }>();
@@ -28,13 +30,21 @@ const statusLabels: Record<string, string> = {
     completed: 'Terminé',
     failed: 'Échoué',
 };
+
+function doSuggestAlternatives() {
+    router.post(suggestAlternatives.url(props.toolSlug), {}, { preserveScroll: true });
+}
+
+function doGenerateAlternative(altSlug: string) {
+    router.post(generateTool.url(altSlug), {}, { preserveScroll: true });
+}
 </script>
 
 <template>
     <div class="space-y-4 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
         <div class="flex items-center justify-between">
             <h3 class="text-lg font-medium">Alternatives</h3>
-            <Button variant="outline" size="sm" disabled>
+            <Button variant="outline" size="sm" @click="doSuggestAlternatives">
                 Suggérer des alternatives
             </Button>
         </div>
@@ -61,9 +71,20 @@ const statusLabels: Record<string, string> = {
                     >
                         {{ statusLabels[alt.generation_status] ?? alt.generation_status }}
                     </Badge>
-                    <Button v-if="alt.generation_status === 'pending'" variant="outline" size="sm" disabled>
+                    <Button
+                        v-if="alt.generation_status === 'pending' || alt.generation_status === 'failed'"
+                        variant="outline"
+                        size="sm"
+                        @click="doGenerateAlternative(alt.slug)"
+                    >
                         Générer avec l'IA
                     </Button>
+                    <span
+                        v-else-if="alt.generation_status === 'generating'"
+                        class="text-sm text-muted-foreground"
+                    >
+                        Génération en cours...
+                    </span>
                 </div>
             </div>
         </div>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { comparison as generateComparison } from '@/routes/admin/generate';
 
 type ComparisonTool = {
     id: string;
@@ -48,6 +50,10 @@ function getOtherTool(comparison: Comparison): string {
     }
     return '—';
 }
+
+function doGenerateComparison(comparisonSlug: string) {
+    router.post(generateComparison.url(comparisonSlug), {}, { preserveScroll: true });
+}
 </script>
 
 <template>
@@ -76,9 +82,20 @@ function getOtherTool(comparison: Comparison): string {
                     >
                         {{ statusLabels[comparison.generation_status] ?? comparison.generation_status }}
                     </Badge>
-                    <Button v-if="comparison.generation_status === 'pending'" variant="outline" size="sm" disabled>
+                    <Button
+                        v-if="comparison.generation_status === 'pending' || comparison.generation_status === 'failed'"
+                        variant="outline"
+                        size="sm"
+                        @click="doGenerateComparison(comparison.slug)"
+                    >
                         Générer avec l'IA
                     </Button>
+                    <span
+                        v-else-if="comparison.generation_status === 'generating'"
+                        class="text-sm text-muted-foreground"
+                    >
+                        Génération en cours...
+                    </span>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ComparisonController;
+use App\Http\Controllers\Admin\GenerationController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\ToolController;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,9 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('admin.')->gr
 
     Route::resource('comparatifs', ComparisonController::class)->parameters(['comparatifs' => 'comparison'])->except(['show']);
     Route::post('comparatifs/{comparison}/toggle-publish', [ComparisonController::class, 'togglePublish'])->name('comparisons.toggle-publish');
+
+    Route::post('outils/{tool}/generate', [GenerationController::class, 'generateTool'])->name('generate.tool');
+    Route::post('comparatifs/{comparison}/generate', [GenerationController::class, 'generateComparison'])->name('generate.comparison');
+    Route::post('outils/{tool}/suggest-alternatives', [GenerationController::class, 'suggestAlternatives'])->name('generate.alternatives');
+    Route::post('outils/{tool}/fetch-logo', [GenerationController::class, 'fetchLogo'])->name('generate.logo');
 });
