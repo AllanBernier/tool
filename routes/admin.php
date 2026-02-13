@@ -5,9 +5,10 @@ use App\Http\Controllers\Admin\ComparisonController;
 use App\Http\Controllers\Admin\GenerationController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\ToolController;
+use App\Http\Middleware\DisableSsrForAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified', DisableSsrForAdmin::class])->prefix('dashboard')->name('admin.')->group(function () {
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::post('categories/reorder', [CategoryController::class, 'reorder'])->name('categories.reorder');
 
