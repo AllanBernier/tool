@@ -34,9 +34,14 @@ router.on('finish', () => {
 </script>
 
 <template>
-    <div class="flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground">
+    <div
+        class="flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground"
+    >
         <PublicHeader @open-search="openSearch" />
-        <main class="flex-1 transition-opacity duration-150 motion-reduce:transition-none" :class="isNavigating ? 'opacity-0' : 'opacity-100'">
+        <main
+            class="flex-1 transition-opacity duration-150 motion-reduce:transition-none"
+            :class="isNavigating ? 'opacity-0' : 'opacity-100'"
+        >
             <slot />
         </main>
         <PublicFooter :categories="categories" />

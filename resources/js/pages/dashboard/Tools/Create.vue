@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { type BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { index as toolsIndex, store } from '@/routes/admin/outils';
+import { type BreadcrumbItem } from '@/types';
 
 type Category = {
     id: string;
@@ -20,7 +20,7 @@ type Tag = {
     name: string;
 };
 
-const props = defineProps<{
+defineProps<{
     categories: Category[];
     tags: Tag[];
 }>();
@@ -57,7 +57,10 @@ function submit() {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-2xl p-4">
-            <Heading title="Créer un outil" description="Ajouter un nouvel outil de développement" />
+            <Heading
+                title="Créer un outil"
+                description="Ajouter un nouvel outil de développement"
+            />
 
             <form class="space-y-6" @submit.prevent="submit">
                 <div class="grid gap-2">
@@ -88,11 +91,17 @@ function submit() {
                     <select
                         id="category_id"
                         v-model="form.category_id"
-                        class="border-input bg-background ring-offset-background focus-visible:ring-ring h-9 w-full rounded-md border px-3 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                        class="h-9 w-full rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
                         required
                     >
-                        <option value="" disabled>Sélectionner une catégorie</option>
-                        <option v-for="category in categories" :key="category.id" :value="category.id">
+                        <option value="" disabled>
+                            Sélectionner une catégorie
+                        </option>
+                        <option
+                            v-for="category in categories"
+                            :key="category.id"
+                            :value="category.id"
+                        >
                             {{ category.name }}
                         </option>
                     </select>

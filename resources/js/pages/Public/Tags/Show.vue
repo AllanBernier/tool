@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { TagIcon } from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppHead from '@/components/AppHead.vue';
 import type { SeoMeta } from '@/components/AppHead.vue';
 import JsonLd from '@/components/JsonLd.vue';
@@ -8,7 +9,6 @@ import PublicBreadcrumbs from '@/components/public/PublicBreadcrumbs.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Tag, Tool } from '@/types';
-import { computed } from 'vue';
 
 type PaginatedTools = {
     data: Tool[];
@@ -43,9 +43,24 @@ const jsonLdSchemas = computed(() => {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-                { '@type': 'ListItem', position: 1, name: 'Accueil', item: baseUrl },
-                { '@type': 'ListItem', position: 2, name: 'Tags', item: `${baseUrl}/outils` },
-                { '@type': 'ListItem', position: 3, name: props.tag.name, item: props.seo.canonical },
+                {
+                    '@type': 'ListItem',
+                    position: 1,
+                    name: 'Accueil',
+                    item: baseUrl,
+                },
+                {
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: 'Tags',
+                    item: `${baseUrl}/outils`,
+                },
+                {
+                    '@type': 'ListItem',
+                    position: 3,
+                    name: props.tag.name,
+                    item: props.seo.canonical,
+                },
             ],
         },
     ];
@@ -62,21 +77,32 @@ const jsonLdSchemas = computed(() => {
 
             <!-- Header -->
             <div class="mb-8 flex items-center gap-4">
-                <div class="flex size-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <div
+                    class="flex size-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary"
+                >
                     <TagIcon class="size-7" />
                 </div>
                 <div>
-                    <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                    <h1
+                        class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+                    >
                         {{ tag.name }}
                     </h1>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        {{ tools.total > 0 ? `${tools.total} outil${tools.total > 1 ? 's' : ''}` : 'Aucun outil' }}
+                        {{
+                            tools.total > 0
+                                ? `${tools.total} outil${tools.total > 1 ? 's' : ''}`
+                                : 'Aucun outil'
+                        }}
                     </p>
                 </div>
             </div>
 
             <!-- Tools Grid -->
-            <div v-if="tools.data.length" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+                v-if="tools.data.length"
+                class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
                 <ToolCard
                     v-for="tool in tools.data"
                     :key="tool.id"
@@ -96,15 +122,20 @@ const jsonLdSchemas = computed(() => {
             </div>
 
             <!-- Pagination -->
-            <nav v-if="tools.last_page > 1" class="mt-12 flex items-center justify-center gap-1">
+            <nav
+                v-if="tools.last_page > 1"
+                class="mt-12 flex items-center justify-center gap-1"
+            >
                 <template v-for="link in tools.links" :key="link.label">
                     <Link
                         v-if="link.url"
                         :href="link.url"
                         class="inline-flex h-9 min-w-9 items-center justify-center rounded-md border px-3 text-sm transition-colors"
-                        :class="link.active
-                            ? 'border-primary bg-primary text-primary-foreground'
-                            : 'border-border bg-background text-foreground hover:bg-accent'"
+                        :class="
+                            link.active
+                                ? 'border-primary bg-primary text-primary-foreground'
+                                : 'border-border bg-background text-foreground hover:bg-accent'
+                        "
                         v-html="link.label"
                         preserve-state
                     />

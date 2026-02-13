@@ -14,14 +14,23 @@ defineProps<{
 
 <template>
     <nav aria-label="Breadcrumb" class="mb-6">
-        <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+        <ol
+            class="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"
+        >
             <li class="flex items-center gap-1.5">
-                <Link href="/" class="flex items-center gap-1 transition-colors hover:text-foreground">
+                <Link
+                    href="/"
+                    class="flex items-center gap-1 transition-colors hover:text-foreground"
+                >
                     <Home class="size-3.5" />
                     <span>Accueil</span>
                 </Link>
             </li>
-            <li v-for="(item, index) in items" :key="index" class="flex items-center gap-1.5">
+            <li
+                v-for="(item, index) in items"
+                :key="index"
+                class="flex items-center gap-1.5"
+            >
                 <ChevronRight class="size-3.5 text-muted-foreground/60" />
                 <Link
                     v-if="item.href"

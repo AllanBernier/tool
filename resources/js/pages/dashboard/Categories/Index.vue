@@ -2,7 +2,6 @@
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { Plus, GripVertical, Pencil, Trash2 } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
-import AppLayout from '@/layouts/AppLayout.vue';
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,8 +12,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { create, edit, destroy, reorder } from '@/routes/admin/categories';
 import { type BreadcrumbItem } from '@/types';
-import { index as categoriesIndex, create, edit, destroy, reorder } from '@/routes/admin/categories';
 
 type Category = {
     id: string;
@@ -94,7 +94,10 @@ function onDrop(targetIndex: number) {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-col gap-6 p-4">
             <div class="flex items-center justify-between">
-                <Heading title="Catégories" description="Gérer les catégories d'outils" />
+                <Heading
+                    title="Catégories"
+                    description="Gérer les catégories d'outils"
+                />
                 <Button as-child>
                     <Link :href="create().url">
                         <Plus class="mr-2 size-4" />
@@ -117,9 +120,13 @@ function onDrop(targetIndex: number) {
                 {{ flash.error }}
             </div>
 
-            <div class="overflow-hidden rounded-lg border border-sidebar-border/70 dark:border-sidebar-border">
+            <div
+                class="overflow-hidden rounded-lg border border-sidebar-border/70 dark:border-sidebar-border"
+            >
                 <table class="w-full text-left text-sm">
-                    <thead class="border-b border-sidebar-border/70 bg-muted/50 dark:border-sidebar-border">
+                    <thead
+                        class="border-b border-sidebar-border/70 bg-muted/50 dark:border-sidebar-border"
+                    >
                         <tr>
                             <th class="w-10 px-4 py-3"></th>
                             <th class="w-12 px-4 py-3">Icône</th>
@@ -140,7 +147,9 @@ function onDrop(targetIndex: number) {
                             @drop="onDrop(index)"
                         >
                             <td class="px-4 py-3">
-                                <GripVertical class="size-4 cursor-grab text-muted-foreground" />
+                                <GripVertical
+                                    class="size-4 cursor-grab text-muted-foreground"
+                                />
                             </td>
                             <td class="px-4 py-3 text-muted-foreground">
                                 {{ category.icon }}
@@ -155,8 +164,14 @@ function onDrop(targetIndex: number) {
                                 {{ category.tools_count }}
                             </td>
                             <td class="px-4 py-3 text-right">
-                                <div class="flex items-center justify-end gap-2">
-                                    <Button variant="ghost" size="icon" as-child>
+                                <div
+                                    class="flex items-center justify-end gap-2"
+                                >
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        as-child
+                                    >
                                         <Link :href="edit.url(category.slug)">
                                             <Pencil class="size-4" />
                                         </Link>
@@ -172,7 +187,10 @@ function onDrop(targetIndex: number) {
                             </td>
                         </tr>
                         <tr v-if="categories.length === 0">
-                            <td colspan="6" class="px-4 py-8 text-center text-muted-foreground">
+                            <td
+                                colspan="6"
+                                class="px-4 py-8 text-center text-muted-foreground"
+                            >
                                 Aucune catégorie trouvée.
                             </td>
                         </tr>
@@ -186,13 +204,18 @@ function onDrop(targetIndex: number) {
                 <DialogHeader>
                     <DialogTitle>Supprimer la catégorie</DialogTitle>
                     <DialogDescription>
-                        Êtes-vous sûr de vouloir supprimer la catégorie
-                        « {{ categoryToDelete?.name }} » ? Cette action est irréversible.
+                        Êtes-vous sûr de vouloir supprimer la catégorie «
+                        {{ categoryToDelete?.name }} » ? Cette action est
+                        irréversible.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <Button variant="outline" @click="deleteDialog = false">Annuler</Button>
-                    <Button variant="destructive" @click="performDelete">Supprimer</Button>
+                    <Button variant="outline" @click="deleteDialog = false"
+                        >Annuler</Button
+                    >
+                    <Button variant="destructive" @click="performDelete"
+                        >Supprimer</Button
+                    >
                 </DialogFooter>
             </DialogContent>
         </Dialog>

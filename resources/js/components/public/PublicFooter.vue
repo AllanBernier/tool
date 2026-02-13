@@ -29,9 +29,7 @@ const currentYear = new Date().getFullYear();
 <template>
     <footer class="border-t border-border bg-muted/30">
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div
-                class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
-            >
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
                 <!-- Brand -->
                 <div class="sm:col-span-2 lg:col-span-1">
                     <Link
@@ -58,15 +56,12 @@ const currentYear = new Date().getFullYear();
                 <!-- Navigation -->
                 <div>
                     <h3
-                        class="text-sm font-semibold uppercase tracking-wider text-foreground"
+                        class="text-sm font-semibold tracking-wider text-foreground uppercase"
                     >
                         Navigation
                     </h3>
                     <ul class="mt-4 flex flex-col gap-2.5">
-                        <li
-                            v-for="link in sectionLinks"
-                            :key="link.title"
-                        >
+                        <li v-for="link in sectionLinks" :key="link.title">
                             <Link
                                 :href="link.href"
                                 class="text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -80,17 +75,12 @@ const currentYear = new Date().getFullYear();
                 <!-- Categories -->
                 <div v-if="categories.length > 0" class="lg:col-span-2">
                     <h3
-                        class="text-sm font-semibold uppercase tracking-wider text-foreground"
+                        class="text-sm font-semibold tracking-wider text-foreground uppercase"
                     >
                         Catégories
                     </h3>
-                    <ul
-                        class="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5"
-                    >
-                        <li
-                            v-for="category in categories"
-                            :key="category.slug"
-                        >
+                    <ul class="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5">
+                        <li v-for="category in categories" :key="category.slug">
                             <Link
                                 :href="`/categories/${category.slug}`"
                                 class="text-sm text-muted-foreground transition-colors hover:text-foreground"

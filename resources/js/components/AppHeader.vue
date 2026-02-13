@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, FolderTree, GitCompareArrows, LayoutGrid, Menu, Search, Tags, Wrench } from 'lucide-vue-next';
+import {
+    BookOpen,
+    Folder,
+    FolderTree,
+    GitCompareArrows,
+    LayoutGrid,
+    Menu,
+    Search,
+    Tags,
+    Wrench,
+} from 'lucide-vue-next';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
@@ -35,11 +45,11 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
 import { toUrl } from '@/lib/utils';
-import type { BreadcrumbItem, NavItem } from '@/types';
 import { dashboard } from '@/routes';
-import { outils, comparatifs } from '@/routes/dashboard';
 import { index as categoriesIndex } from '@/routes/admin/categories';
 import { index as tagsIndex } from '@/routes/admin/tags';
+import type { BreadcrumbItem, NavItem } from '@/types';
+import { outils, comparatifs } from '@/routes/dashboard';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];

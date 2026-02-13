@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ChevronDown } from 'lucide-vue-next';
 import { ref } from 'vue';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import type { FaqItem } from '@/types';
 
 defineProps<{
@@ -16,7 +20,9 @@ function toggle(index: number): void {
 </script>
 
 <template>
-    <div class="flex flex-col divide-y divide-border rounded-xl border border-border">
+    <div
+        class="flex flex-col divide-y divide-border rounded-xl border border-border"
+    >
         <Collapsible
             v-for="(item, index) in faq"
             :key="index"

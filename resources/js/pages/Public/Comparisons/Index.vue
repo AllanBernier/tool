@@ -27,16 +27,22 @@ defineProps<{
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                <h1
+                    class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+                >
                     Tous les comparatifs
                 </h1>
                 <p class="mt-2 text-lg text-muted-foreground">
-                    Comparez les outils de développement côte à côte pour faire le meilleur choix.
+                    Comparez les outils de développement côte à côte pour faire
+                    le meilleur choix.
                 </p>
             </div>
 
             <!-- Comparisons Grid -->
-            <div v-if="comparisons.data.length" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+                v-if="comparisons.data.length"
+                class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
                 <ComparisonCard
                     v-for="comparison in comparisons.data"
                     :key="comparison.id"
@@ -56,15 +62,20 @@ defineProps<{
             </div>
 
             <!-- Pagination -->
-            <nav v-if="comparisons.last_page > 1" class="mt-12 flex items-center justify-center gap-1">
+            <nav
+                v-if="comparisons.last_page > 1"
+                class="mt-12 flex items-center justify-center gap-1"
+            >
                 <template v-for="link in comparisons.links" :key="link.label">
                     <Link
                         v-if="link.url"
                         :href="link.url"
                         class="inline-flex h-9 min-w-9 items-center justify-center rounded-md border px-3 text-sm transition-colors"
-                        :class="link.active
-                            ? 'border-primary bg-primary text-primary-foreground'
-                            : 'border-border bg-background text-foreground hover:bg-accent'"
+                        :class="
+                            link.active
+                                ? 'border-primary bg-primary text-primary-foreground'
+                                : 'border-border bg-background text-foreground hover:bg-accent'
+                        "
                         v-html="link.label"
                         preserve-state
                     />

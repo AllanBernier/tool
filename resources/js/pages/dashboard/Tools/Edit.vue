@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import { ChevronDown, Plus, X, Image } from 'lucide-vue-next';
-import AppLayout from '@/layouts/AppLayout.vue';
+import { ref } from 'vue';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { type BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/AppLayout.vue';
+import {
+    tool as generateTool,
+    logo as fetchLogo,
+} from '@/routes/admin/generate';
 import { index as toolsIndex, update } from '@/routes/admin/outils';
 import { togglePublish } from '@/routes/admin/tools';
-import { tool as generateTool, alternatives as suggestAlternatives, logo as fetchLogo } from '@/routes/admin/generate';
+import { type BreadcrumbItem } from '@/types';
 import AlternativesPanel from './AlternativesPanel.vue';
 import ComparisonsPanel from './ComparisonsPanel.vue';
 
@@ -183,25 +190,31 @@ function submit() {
 }
 
 function doTogglePublish() {
-    router.post(togglePublish.url(props.tool.slug), {}, { preserveScroll: true });
+    router.post(
+        togglePublish.url(props.tool.slug),
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function doGenerateTool() {
-    router.post(generateTool.url(props.tool.slug), {}, { preserveScroll: true });
+    router.post(
+        generateTool.url(props.tool.slug),
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function doFetchLogo() {
     router.post(fetchLogo.url(props.tool.slug), {}, { preserveScroll: true });
 }
 
-function doSuggestAlternatives() {
-    router.post(suggestAlternatives.url(props.tool.slug), {}, { preserveScroll: true });
-}
-
 const generationStatusColors: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+    pending:
+        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
     generating: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-    completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+    completed:
+        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
     failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
 };
 
@@ -219,23 +232,37 @@ const generationStatusLabels: Record<string, string> = {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-4xl p-4">
             <div class="mb-6 flex items-start justify-between">
-                <Heading :title="`Modifier « ${tool.name} »`" description="Modifier les informations de l'outil" />
+                <Heading
+                    :title="`Modifier « ${tool.name} »`"
+                    description="Modifier les informations de l'outil"
+                />
                 <div class="flex items-center gap-2">
                     <Badge
-                        :class="generationStatusColors[tool.generation_status] ?? ''"
+                        :class="
+                            generationStatusColors[tool.generation_status] ?? ''
+                        "
                         variant="outline"
                     >
-                        {{ generationStatusLabels[tool.generation_status] ?? tool.generation_status }}
+                        {{
+                            generationStatusLabels[tool.generation_status] ??
+                            tool.generation_status
+                        }}
                     </Badge>
                     <Badge
-                        :class="tool.is_published
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                            : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'"
+                        :class="
+                            tool.is_published
+                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                        "
                         variant="outline"
                     >
                         {{ tool.is_published ? 'Publié' : 'Brouillon' }}
                     </Badge>
-                    <Button variant="outline" size="sm" @click="doTogglePublish">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        @click="doTogglePublish"
+                    >
                         {{ tool.is_published ? 'Dépublier' : 'Publier' }}
                     </Button>
                     <Button
@@ -244,7 +271,11 @@ const generationStatusLabels: Record<string, string> = {
                         :disabled="tool.generation_status === 'generating'"
                         @click="doGenerateTool"
                     >
-                        {{ tool.generation_status === 'generating' ? 'Génération en cours...' : 'Générer avec l\'IA' }}
+                        {{
+                            tool.generation_status === 'generating'
+                                ? 'Génération en cours...'
+                                : "Générer avec l'IA"
+                        }}
                     </Button>
                 </div>
             </div>
@@ -256,7 +287,10 @@ const generationStatusLabels: Record<string, string> = {
                     :alt="tool.name"
                     class="size-16 rounded-lg object-contain"
                 />
-                <div v-else class="flex size-16 items-center justify-center rounded-lg bg-muted">
+                <div
+                    v-else
+                    class="flex size-16 items-center justify-center rounded-lg bg-muted"
+                >
                     <Image class="size-8 text-muted-foreground" />
                 </div>
                 <Button variant="outline" size="sm" @click="doFetchLogo">
@@ -265,7 +299,9 @@ const generationStatusLabels: Record<string, string> = {
             </div>
 
             <form class="space-y-8" @submit.prevent="submit">
-                <div class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                <div
+                    class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                >
                     <h3 class="text-lg font-medium">Informations de base</h3>
 
                     <div class="grid gap-2">
@@ -296,11 +332,17 @@ const generationStatusLabels: Record<string, string> = {
                         <select
                             id="category_id"
                             v-model="form.category_id"
-                            class="border-input bg-background ring-offset-background focus-visible:ring-ring h-9 w-full rounded-md border px-3 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                            class="h-9 w-full rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
                             required
                         >
-                            <option value="" disabled>Sélectionner une catégorie</option>
-                            <option v-for="category in categories" :key="category.id" :value="category.id">
+                            <option value="" disabled>
+                                Sélectionner une catégorie
+                            </option>
+                            <option
+                                v-for="category in categories"
+                                :key="category.id"
+                                :value="category.id"
+                            >
                                 {{ category.name }}
                             </option>
                         </select>
@@ -326,7 +368,9 @@ const generationStatusLabels: Record<string, string> = {
                     </div>
                 </div>
 
-                <div class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                <div
+                    class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                >
                     <h3 class="text-lg font-medium">Contenu</h3>
 
                     <div class="grid gap-2">
@@ -334,7 +378,7 @@ const generationStatusLabels: Record<string, string> = {
                         <textarea
                             id="description"
                             v-model="form.description"
-                            class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                             placeholder="Description courte de l'outil"
                             rows="3"
                         ></textarea>
@@ -346,7 +390,7 @@ const generationStatusLabels: Record<string, string> = {
                         <textarea
                             id="content"
                             v-model="form.content"
-                            class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[200px] w-full rounded-md border px-3 py-2 font-mono text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                            class="flex min-h-[200px] w-full rounded-md border border-input bg-background px-3 py-2 font-mono text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                             placeholder="Contenu complet en Markdown"
                             rows="10"
                         ></textarea>
@@ -354,85 +398,186 @@ const generationStatusLabels: Record<string, string> = {
                     </div>
                 </div>
 
-                <div class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                <div
+                    class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                >
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-medium">Fonctionnalités</h3>
-                        <Button type="button" variant="outline" size="sm" @click="addFeature">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            @click="addFeature"
+                        >
                             <Plus class="mr-1 size-4" />
                             Ajouter
                         </Button>
                     </div>
-                    <div v-for="(_, i) in form.features" :key="i" class="flex items-center gap-2">
+                    <div
+                        v-for="(_, i) in form.features"
+                        :key="i"
+                        class="flex items-center gap-2"
+                    >
                         <Input
                             v-model="form.features[i]"
                             placeholder="Fonctionnalité"
                         />
-                        <Button type="button" variant="ghost" size="icon" @click="removeFeature(i)">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            @click="removeFeature(i)"
+                        >
                             <X class="size-4 text-red-500" />
                         </Button>
                     </div>
-                    <p v-if="form.features.length === 0" class="text-sm text-muted-foreground">Aucune fonctionnalité ajoutée.</p>
+                    <p
+                        v-if="form.features.length === 0"
+                        class="text-sm text-muted-foreground"
+                    >
+                        Aucune fonctionnalité ajoutée.
+                    </p>
                     <InputError :message="form.errors.features" />
                 </div>
 
                 <div class="grid gap-6 md:grid-cols-2">
-                    <div class="space-y-4 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                    <div
+                        class="space-y-4 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                    >
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-medium">Avantages</h3>
-                            <Button type="button" variant="outline" size="sm" @click="addPro">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                @click="addPro"
+                            >
                                 <Plus class="mr-1 size-4" />
                                 Ajouter
                             </Button>
                         </div>
-                        <div v-for="(_, i) in form.pros" :key="i" class="flex items-center gap-2">
-                            <Input v-model="form.pros[i]" placeholder="Avantage" />
-                            <Button type="button" variant="ghost" size="icon" @click="removePro(i)">
+                        <div
+                            v-for="(_, i) in form.pros"
+                            :key="i"
+                            class="flex items-center gap-2"
+                        >
+                            <Input
+                                v-model="form.pros[i]"
+                                placeholder="Avantage"
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                @click="removePro(i)"
+                            >
                                 <X class="size-4 text-red-500" />
                             </Button>
                         </div>
-                        <p v-if="form.pros.length === 0" class="text-sm text-muted-foreground">Aucun avantage.</p>
+                        <p
+                            v-if="form.pros.length === 0"
+                            class="text-sm text-muted-foreground"
+                        >
+                            Aucun avantage.
+                        </p>
                         <InputError :message="form.errors.pros" />
                     </div>
 
-                    <div class="space-y-4 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                    <div
+                        class="space-y-4 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                    >
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-medium">Inconvénients</h3>
-                            <Button type="button" variant="outline" size="sm" @click="addCon">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                @click="addCon"
+                            >
                                 <Plus class="mr-1 size-4" />
                                 Ajouter
                             </Button>
                         </div>
-                        <div v-for="(_, i) in form.cons" :key="i" class="flex items-center gap-2">
-                            <Input v-model="form.cons[i]" placeholder="Inconvénient" />
-                            <Button type="button" variant="ghost" size="icon" @click="removeCon(i)">
+                        <div
+                            v-for="(_, i) in form.cons"
+                            :key="i"
+                            class="flex items-center gap-2"
+                        >
+                            <Input
+                                v-model="form.cons[i]"
+                                placeholder="Inconvénient"
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                @click="removeCon(i)"
+                            >
                                 <X class="size-4 text-red-500" />
                             </Button>
                         </div>
-                        <p v-if="form.cons.length === 0" class="text-sm text-muted-foreground">Aucun inconvénient.</p>
+                        <p
+                            v-if="form.cons.length === 0"
+                            class="text-sm text-muted-foreground"
+                        >
+                            Aucun inconvénient.
+                        </p>
                         <InputError :message="form.errors.cons" />
                     </div>
                 </div>
 
-                <div class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                <div
+                    class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                >
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-medium">Tarification</h3>
-                        <Button type="button" variant="outline" size="sm" @click="addPricing">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            @click="addPricing"
+                        >
                             <Plus class="mr-1 size-4" />
                             Ajouter un plan
                         </Button>
                     </div>
-                    <div v-for="(item, i) in form.pricing" :key="i" class="flex items-center gap-2">
-                        <Input v-model="item.plan" placeholder="Nom du plan" class="flex-1" />
-                        <Input v-model="item.price" type="number" placeholder="Prix" class="w-32" />
-                        <Button type="button" variant="ghost" size="icon" @click="removePricing(i)">
+                    <div
+                        v-for="(item, i) in form.pricing"
+                        :key="i"
+                        class="flex items-center gap-2"
+                    >
+                        <Input
+                            v-model="item.plan"
+                            placeholder="Nom du plan"
+                            class="flex-1"
+                        />
+                        <Input
+                            v-model="item.price"
+                            type="number"
+                            placeholder="Prix"
+                            class="w-32"
+                        />
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            @click="removePricing(i)"
+                        >
                             <X class="size-4 text-red-500" />
                         </Button>
                     </div>
-                    <p v-if="form.pricing.length === 0" class="text-sm text-muted-foreground">Aucun plan tarifaire.</p>
+                    <p
+                        v-if="form.pricing.length === 0"
+                        class="text-sm text-muted-foreground"
+                    >
+                        Aucun plan tarifaire.
+                    </p>
                     <InputError :message="form.errors.pricing" />
                 </div>
 
-                <div class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                <div
+                    class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                >
                     <h3 class="text-lg font-medium">Plateformes</h3>
                     <div class="flex flex-wrap gap-4">
                         <label
@@ -450,37 +595,66 @@ const generationStatusLabels: Record<string, string> = {
                     <InputError :message="form.errors.platforms" />
                 </div>
 
-                <div class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                <div
+                    class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                >
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-medium">FAQ</h3>
-                        <Button type="button" variant="outline" size="sm" @click="addFaq">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            @click="addFaq"
+                        >
                             <Plus class="mr-1 size-4" />
                             Ajouter
                         </Button>
                     </div>
-                    <div v-for="(item, i) in form.faq" :key="i" class="space-y-2 rounded-lg border border-sidebar-border/30 p-4">
+                    <div
+                        v-for="(item, i) in form.faq"
+                        :key="i"
+                        class="space-y-2 rounded-lg border border-sidebar-border/30 p-4"
+                    >
                         <div class="flex items-start justify-between">
                             <div class="flex-1 space-y-2">
-                                <Input v-model="item.question" placeholder="Question" />
+                                <Input
+                                    v-model="item.question"
+                                    placeholder="Question"
+                                />
                                 <textarea
                                     v-model="item.answer"
-                                    class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[60px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                                    class="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                     placeholder="Réponse"
                                     rows="2"
                                 ></textarea>
                             </div>
-                            <Button type="button" variant="ghost" size="icon" class="ml-2" @click="removeFaq(i)">
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                class="ml-2"
+                                @click="removeFaq(i)"
+                            >
                                 <X class="size-4 text-red-500" />
                             </Button>
                         </div>
                     </div>
-                    <p v-if="form.faq.length === 0" class="text-sm text-muted-foreground">Aucune question/réponse.</p>
+                    <p
+                        v-if="form.faq.length === 0"
+                        class="text-sm text-muted-foreground"
+                    >
+                        Aucune question/réponse.
+                    </p>
                     <InputError :message="form.errors.faq" />
                 </div>
 
                 <Collapsible v-model:open="seoOpen">
                     <CollapsibleTrigger as-child>
-                        <Button variant="ghost" class="w-full justify-between" type="button">
+                        <Button
+                            variant="ghost"
+                            class="w-full justify-between"
+                            type="button"
+                        >
                             SEO (optionnel)
                             <ChevronDown
                                 class="size-4 transition-transform"
@@ -500,15 +674,19 @@ const generationStatusLabels: Record<string, string> = {
                         </div>
 
                         <div class="grid gap-2">
-                            <Label for="meta_description">Meta Description</Label>
+                            <Label for="meta_description"
+                                >Meta Description</Label
+                            >
                             <textarea
                                 id="meta_description"
                                 v-model="form.meta_description"
-                                class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 placeholder="Description SEO"
                                 rows="2"
                             ></textarea>
-                            <InputError :message="form.errors.meta_description" />
+                            <InputError
+                                :message="form.errors.meta_description"
+                            />
                         </div>
                     </CollapsibleContent>
                 </Collapsible>
@@ -525,7 +703,10 @@ const generationStatusLabels: Record<string, string> = {
                         leave-active-class="transition ease-in-out"
                         leave-to-class="opacity-0"
                     >
-                        <p v-show="form.recentlySuccessful" class="text-sm text-green-600">
+                        <p
+                            v-show="form.recentlySuccessful"
+                            class="text-sm text-green-600"
+                        >
                             Enregistré.
                         </p>
                     </Transition>
@@ -533,7 +714,10 @@ const generationStatusLabels: Record<string, string> = {
             </form>
 
             <div class="mt-8 space-y-6">
-                <AlternativesPanel :alternatives="tool.alternatives" :tool-slug="tool.slug" />
+                <AlternativesPanel
+                    :alternatives="tool.alternatives"
+                    :tool-slug="tool.slug"
+                />
                 <ComparisonsPanel
                     :comparisons-as-tool-a="tool.comparisons_as_tool_a"
                     :comparisons-as-tool-b="tool.comparisons_as_tool_b"

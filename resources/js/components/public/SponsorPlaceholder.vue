@@ -16,7 +16,8 @@ withDefaults(
     >
         <Sparkles class="size-5 shrink-0 text-muted-foreground/50" />
         <p class="text-sm text-muted-foreground">
-            <span class="font-medium">Espace sponsor</span> — Mettez en avant votre outil auprès de milliers de développeurs.
+            <span class="font-medium">Espace sponsor</span> — Mettez en avant
+            votre outil auprès de milliers de développeurs.
         </p>
     </div>
 

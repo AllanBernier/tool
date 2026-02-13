@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, FolderTree, GitCompareArrows, LayoutGrid, Tags, Wrench } from 'lucide-vue-next';
+import {
+    BookOpen,
+    Folder,
+    FolderTree,
+    GitCompareArrows,
+    LayoutGrid,
+    Tags,
+    Wrench,
+} from 'lucide-vue-next';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -13,13 +21,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { dashboard } from '@/routes';
+import { index as categoriesIndex } from '@/routes/admin/categories';
+import { index as comparisonsIndex } from '@/routes/admin/comparatifs';
+import { index as toolsIndex } from '@/routes/admin/outils';
+import { index as tagsIndex } from '@/routes/admin/tags';
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
-import { dashboard } from '@/routes';
-import { index as toolsIndex } from '@/routes/admin/outils';
-import { index as categoriesIndex } from '@/routes/admin/categories';
-import { index as tagsIndex } from '@/routes/admin/tags';
-import { index as comparisonsIndex } from '@/routes/admin/comparatifs';
 
 const mainNavItems: NavItem[] = [
     {

@@ -2,11 +2,9 @@
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { Plus, Pencil, Trash2, Eye, Image } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
-import AppLayout from '@/layouts/AppLayout.vue';
 import Heading from '@/components/Heading.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
     Dialog,
     DialogContent,
@@ -15,9 +13,17 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { type BreadcrumbItem } from '@/types';
-import { index as toolsIndex, create, edit, show, destroy } from '@/routes/admin/outils';
+import { Input } from '@/components/ui/input';
+import AppLayout from '@/layouts/AppLayout.vue';
+import {
+    index as toolsIndex,
+    create,
+    edit,
+    show,
+    destroy,
+} from '@/routes/admin/outils';
 import { togglePublish } from '@/routes/admin/tools';
+import { type BreadcrumbItem } from '@/types';
 
 type Category = {
     id: string;
@@ -121,9 +127,11 @@ function doTogglePublish(tool: ToolItem) {
 }
 
 const generationStatusColors: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+    pending:
+        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
     generating: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-    completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+    completed:
+        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
     failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
 };
 
@@ -141,7 +149,10 @@ const generationStatusLabels: Record<string, string> = {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-col gap-6 p-4">
             <div class="flex items-center justify-between">
-                <Heading title="Outils" description="Gérer les outils de développement" />
+                <Heading
+                    title="Outils"
+                    description="Gérer les outils de développement"
+                />
                 <Button as-child>
                     <Link :href="create().url">
                         <Plus class="mr-2 size-4" />
@@ -173,17 +184,21 @@ const generationStatusLabels: Record<string, string> = {
                 />
                 <select
                     v-model="categoryFilter"
-                    class="border-input bg-background ring-offset-background focus-visible:ring-ring h-9 rounded-md border px-3 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                    class="h-9 rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
                     @change="applyFilters"
                 >
                     <option value="">Toutes les catégories</option>
-                    <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                    <option
+                        v-for="cat in categories"
+                        :key="cat.id"
+                        :value="cat.id"
+                    >
                         {{ cat.name }}
                     </option>
                 </select>
                 <select
                     v-model="statusFilter"
-                    class="border-input bg-background ring-offset-background focus-visible:ring-ring h-9 rounded-md border px-3 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                    class="h-9 rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
                     @change="applyFilters"
                 >
                     <option value="">Tous les statuts</option>
@@ -194,15 +209,23 @@ const generationStatusLabels: Record<string, string> = {
                 </select>
             </div>
 
-            <div class="overflow-hidden rounded-lg border border-sidebar-border/70 dark:border-sidebar-border">
+            <div
+                class="overflow-hidden rounded-lg border border-sidebar-border/70 dark:border-sidebar-border"
+            >
                 <table class="w-full text-left text-sm">
-                    <thead class="border-b border-sidebar-border/70 bg-muted/50 dark:border-sidebar-border">
+                    <thead
+                        class="border-b border-sidebar-border/70 bg-muted/50 dark:border-sidebar-border"
+                    >
                         <tr>
                             <th class="w-12 px-4 py-3"></th>
                             <th class="px-4 py-3">Nom</th>
                             <th class="px-4 py-3">Catégorie</th>
-                            <th class="w-28 px-4 py-3 text-center">Publication</th>
-                            <th class="w-28 px-4 py-3 text-center">Génération</th>
+                            <th class="w-28 px-4 py-3 text-center">
+                                Publication
+                            </th>
+                            <th class="w-28 px-4 py-3 text-center">
+                                Génération
+                            </th>
                             <th class="w-32 px-4 py-3">Créé le</th>
                             <th class="w-36 px-4 py-3 text-right">Actions</th>
                         </tr>
@@ -220,8 +243,13 @@ const generationStatusLabels: Record<string, string> = {
                                     :alt="tool.name"
                                     class="size-8 rounded object-contain"
                                 />
-                                <div v-else class="flex size-8 items-center justify-center rounded bg-muted">
-                                    <Image class="size-4 text-muted-foreground" />
+                                <div
+                                    v-else
+                                    class="flex size-8 items-center justify-center rounded bg-muted"
+                                >
+                                    <Image
+                                        class="size-4 text-muted-foreground"
+                                    />
                                 </div>
                             </td>
                             <td class="px-4 py-3 font-medium">
@@ -232,33 +260,61 @@ const generationStatusLabels: Record<string, string> = {
                             </td>
                             <td class="px-4 py-3 text-center">
                                 <Badge
-                                    :class="tool.is_published
-                                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                        : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'"
+                                    :class="
+                                        tool.is_published
+                                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                            : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                                    "
                                     variant="outline"
                                 >
-                                    {{ tool.is_published ? 'Publié' : 'Brouillon' }}
+                                    {{
+                                        tool.is_published
+                                            ? 'Publié'
+                                            : 'Brouillon'
+                                    }}
                                 </Badge>
                             </td>
                             <td class="px-4 py-3 text-center">
                                 <Badge
-                                    :class="generationStatusColors[tool.generation_status] ?? ''"
+                                    :class="
+                                        generationStatusColors[
+                                            tool.generation_status
+                                        ] ?? ''
+                                    "
                                     variant="outline"
                                 >
-                                    {{ generationStatusLabels[tool.generation_status] ?? tool.generation_status }}
+                                    {{
+                                        generationStatusLabels[
+                                            tool.generation_status
+                                        ] ?? tool.generation_status
+                                    }}
                                 </Badge>
                             </td>
                             <td class="px-4 py-3 text-muted-foreground">
-                                {{ new Date(tool.created_at).toLocaleDateString('fr-FR') }}
+                                {{
+                                    new Date(
+                                        tool.created_at,
+                                    ).toLocaleDateString('fr-FR')
+                                }}
                             </td>
                             <td class="px-4 py-3 text-right">
-                                <div class="flex items-center justify-end gap-1">
-                                    <Button variant="ghost" size="icon" as-child>
+                                <div
+                                    class="flex items-center justify-end gap-1"
+                                >
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        as-child
+                                    >
                                         <Link :href="show.url(tool.slug)">
                                             <Eye class="size-4" />
                                         </Link>
                                     </Button>
-                                    <Button variant="ghost" size="icon" as-child>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        as-child
+                                    >
                                         <Link :href="edit.url(tool.slug)">
                                             <Pencil class="size-4" />
                                         </Link>
@@ -268,7 +324,11 @@ const generationStatusLabels: Record<string, string> = {
                                         size="sm"
                                         @click="doTogglePublish(tool)"
                                     >
-                                        {{ tool.is_published ? 'Dépublier' : 'Publier' }}
+                                        {{
+                                            tool.is_published
+                                                ? 'Dépublier'
+                                                : 'Publier'
+                                        }}
                                     </Button>
                                     <Button
                                         variant="ghost"
@@ -281,7 +341,10 @@ const generationStatusLabels: Record<string, string> = {
                             </td>
                         </tr>
                         <tr v-if="tools.data.length === 0">
-                            <td colspan="7" class="px-4 py-8 text-center text-muted-foreground">
+                            <td
+                                colspan="7"
+                                class="px-4 py-8 text-center text-muted-foreground"
+                            >
                                 Aucun outil trouvé.
                             </td>
                         </tr>
@@ -289,14 +352,20 @@ const generationStatusLabels: Record<string, string> = {
                 </table>
             </div>
 
-            <div v-if="tools.last_page > 1" class="flex items-center justify-center gap-1">
+            <div
+                v-if="tools.last_page > 1"
+                class="flex items-center justify-center gap-1"
+            >
                 <template v-for="link in tools.links" :key="link.label">
                     <Button
                         v-if="link.url"
                         variant="outline"
                         size="sm"
                         as-child
-                        :class="{ 'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground': link.active }"
+                        :class="{
+                            'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground':
+                                link.active,
+                        }"
                     >
                         <Link :href="link.url" v-html="link.label" />
                     </Button>
@@ -316,13 +385,18 @@ const generationStatusLabels: Record<string, string> = {
                 <DialogHeader>
                     <DialogTitle>Supprimer l'outil</DialogTitle>
                     <DialogDescription>
-                        Êtes-vous sûr de vouloir supprimer l'outil
-                        « {{ toolToDelete?.name }} » ? Cette action est irréversible.
+                        Êtes-vous sûr de vouloir supprimer l'outil «
+                        {{ toolToDelete?.name }} » ? Cette action est
+                        irréversible.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <Button variant="outline" @click="deleteDialog = false">Annuler</Button>
-                    <Button variant="destructive" @click="performDelete">Supprimer</Button>
+                    <Button variant="outline" @click="deleteDialog = false"
+                        >Annuler</Button
+                    >
+                    <Button variant="destructive" @click="performDelete"
+                        >Supprimer</Button
+                    >
                 </DialogFooter>
             </DialogContent>
         </Dialog>

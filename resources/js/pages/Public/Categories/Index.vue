@@ -18,7 +18,9 @@ defineProps<{
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                <h1
+                    class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+                >
                     Toutes les catégories
                 </h1>
                 <p class="mt-2 text-lg text-muted-foreground">
@@ -27,7 +29,10 @@ defineProps<{
             </div>
 
             <!-- Categories Grid -->
-            <div v-if="categories.length" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div
+                v-if="categories.length"
+                class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            >
                 <CategoryCard
                     v-for="category in categories"
                     :key="category.id"

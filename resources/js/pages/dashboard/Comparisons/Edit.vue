@@ -1,19 +1,23 @@
 <script setup lang="ts">
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import { ChevronDown, Image } from 'lucide-vue-next';
-import AppLayout from '@/layouts/AppLayout.vue';
+import { ref } from 'vue';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { type BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { index as comparisonsIndex, update } from '@/routes/admin/comparatifs';
 import { togglePublish } from '@/routes/admin/comparisons';
 import { comparison as generateComparison } from '@/routes/admin/generate';
+import { type BreadcrumbItem } from '@/types';
 
 type ToolInfo = {
     id: string;
@@ -48,7 +52,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: comparisonLabel },
 ];
 
-const seoOpen = ref(!!props.comparison.meta_title || !!props.comparison.meta_description);
+const seoOpen = ref(
+    !!props.comparison.meta_title || !!props.comparison.meta_description,
+);
 
 const form = useForm({
     content: props.comparison.content ?? '',
@@ -62,17 +68,27 @@ function submit() {
 }
 
 function doTogglePublish() {
-    router.post(togglePublish.url(props.comparison.slug), {}, { preserveScroll: true });
+    router.post(
+        togglePublish.url(props.comparison.slug),
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function doGenerateComparison() {
-    router.post(generateComparison.url(props.comparison.slug), {}, { preserveScroll: true });
+    router.post(
+        generateComparison.url(props.comparison.slug),
+        {},
+        { preserveScroll: true },
+    );
 }
 
 const generationStatusColors: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+    pending:
+        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
     generating: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-    completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+    completed:
+        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
     failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
 };
 
@@ -90,32 +106,55 @@ const generationStatusLabels: Record<string, string> = {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-4xl p-4">
             <div class="mb-6 flex items-start justify-between">
-                <Heading :title="`Modifier « ${comparisonLabel} »`" description="Modifier le contenu du comparatif" />
+                <Heading
+                    :title="`Modifier « ${comparisonLabel} »`"
+                    description="Modifier le contenu du comparatif"
+                />
                 <div class="flex items-center gap-2">
                     <Badge
-                        :class="generationStatusColors[comparison.generation_status] ?? ''"
+                        :class="
+                            generationStatusColors[
+                                comparison.generation_status
+                            ] ?? ''
+                        "
                         variant="outline"
                     >
-                        {{ generationStatusLabels[comparison.generation_status] ?? comparison.generation_status }}
+                        {{
+                            generationStatusLabels[
+                                comparison.generation_status
+                            ] ?? comparison.generation_status
+                        }}
                     </Badge>
                     <Badge
-                        :class="comparison.is_published
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                            : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'"
+                        :class="
+                            comparison.is_published
+                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                        "
                         variant="outline"
                     >
                         {{ comparison.is_published ? 'Publié' : 'Brouillon' }}
                     </Badge>
-                    <Button variant="outline" size="sm" @click="doTogglePublish">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        @click="doTogglePublish"
+                    >
                         {{ comparison.is_published ? 'Dépublier' : 'Publier' }}
                     </Button>
                     <Button
                         variant="outline"
                         size="sm"
-                        :disabled="comparison.generation_status === 'generating'"
+                        :disabled="
+                            comparison.generation_status === 'generating'
+                        "
                         @click="doGenerateComparison"
                     >
-                        {{ comparison.generation_status === 'generating' ? 'Génération en cours...' : 'Générer avec l\'IA' }}
+                        {{
+                            comparison.generation_status === 'generating'
+                                ? 'Génération en cours...'
+                                : "Générer avec l'IA"
+                        }}
                     </Button>
                 </div>
             </div>
@@ -128,10 +167,15 @@ const generationStatusLabels: Record<string, string> = {
                         :alt="comparison.tool_a.name"
                         class="size-12 rounded-lg object-contain"
                     />
-                    <div v-else class="flex size-12 items-center justify-center rounded-lg bg-muted">
+                    <div
+                        v-else
+                        class="flex size-12 items-center justify-center rounded-lg bg-muted"
+                    >
                         <Image class="size-6 text-muted-foreground" />
                     </div>
-                    <span class="text-lg font-medium">{{ comparison.tool_a.name }}</span>
+                    <span class="text-lg font-medium">{{
+                        comparison.tool_a.name
+                    }}</span>
                 </div>
                 <span class="text-muted-foreground">vs</span>
                 <div class="flex items-center gap-3">
@@ -141,15 +185,22 @@ const generationStatusLabels: Record<string, string> = {
                         :alt="comparison.tool_b.name"
                         class="size-12 rounded-lg object-contain"
                     />
-                    <div v-else class="flex size-12 items-center justify-center rounded-lg bg-muted">
+                    <div
+                        v-else
+                        class="flex size-12 items-center justify-center rounded-lg bg-muted"
+                    >
                         <Image class="size-6 text-muted-foreground" />
                     </div>
-                    <span class="text-lg font-medium">{{ comparison.tool_b.name }}</span>
+                    <span class="text-lg font-medium">{{
+                        comparison.tool_b.name
+                    }}</span>
                 </div>
             </div>
 
             <form class="space-y-8" @submit.prevent="submit">
-                <div class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                <div
+                    class="space-y-6 rounded-lg border border-sidebar-border/70 p-6 dark:border-sidebar-border"
+                >
                     <h3 class="text-lg font-medium">Contenu</h3>
 
                     <div class="grid gap-2">
@@ -157,7 +208,7 @@ const generationStatusLabels: Record<string, string> = {
                         <textarea
                             id="content"
                             v-model="form.content"
-                            class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[200px] w-full rounded-md border px-3 py-2 font-mono text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                            class="flex min-h-[200px] w-full rounded-md border border-input bg-background px-3 py-2 font-mono text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                             placeholder="Contenu complet en Markdown"
                             rows="10"
                         ></textarea>
@@ -169,7 +220,7 @@ const generationStatusLabels: Record<string, string> = {
                         <textarea
                             id="verdict"
                             v-model="form.verdict"
-                            class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                             placeholder="Verdict de la comparaison"
                             rows="3"
                         ></textarea>
@@ -179,7 +230,11 @@ const generationStatusLabels: Record<string, string> = {
 
                 <Collapsible v-model:open="seoOpen">
                     <CollapsibleTrigger as-child>
-                        <Button variant="ghost" class="w-full justify-between" type="button">
+                        <Button
+                            variant="ghost"
+                            class="w-full justify-between"
+                            type="button"
+                        >
                             SEO (optionnel)
                             <ChevronDown
                                 class="size-4 transition-transform"
@@ -200,16 +255,20 @@ const generationStatusLabels: Record<string, string> = {
                         </div>
 
                         <div class="grid gap-2">
-                            <Label for="meta_description">Meta Description</Label>
+                            <Label for="meta_description"
+                                >Meta Description</Label
+                            >
                             <textarea
                                 id="meta_description"
                                 v-model="form.meta_description"
-                                class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 placeholder="Description SEO (max 160 caractères)"
                                 maxlength="160"
                                 rows="2"
                             ></textarea>
-                            <InputError :message="form.errors.meta_description" />
+                            <InputError
+                                :message="form.errors.meta_description"
+                            />
                         </div>
                     </CollapsibleContent>
                 </Collapsible>
@@ -226,7 +285,10 @@ const generationStatusLabels: Record<string, string> = {
                         leave-active-class="transition ease-in-out"
                         leave-to-class="opacity-0"
                     >
-                        <p v-show="form.recentlySuccessful" class="text-sm text-green-600">
+                        <p
+                            v-show="form.recentlySuccessful"
+                            class="text-sm text-green-600"
+                        >
                             Enregistré.
                         </p>
                     </Transition>

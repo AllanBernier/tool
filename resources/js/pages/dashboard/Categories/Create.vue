@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import { ChevronDown } from 'lucide-vue-next';
-import AppLayout from '@/layouts/AppLayout.vue';
+import { ref } from 'vue';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { type BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { index as categoriesIndex, store } from '@/routes/admin/categories';
+import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: '/dashboard' },
@@ -38,7 +42,10 @@ function submit() {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-2xl p-4">
-            <Heading title="Créer une catégorie" description="Ajouter une nouvelle catégorie d'outils" />
+            <Heading
+                title="Créer une catégorie"
+                description="Ajouter une nouvelle catégorie d'outils"
+            />
 
             <form class="space-y-6" @submit.prevent="submit">
                 <div class="grid gap-2">
@@ -57,7 +64,7 @@ function submit() {
                     <textarea
                         id="description"
                         v-model="form.description"
-                        class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                        class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="Description de la catégorie"
                         rows="3"
                         required
@@ -78,7 +85,11 @@ function submit() {
 
                 <Collapsible v-model:open="seoOpen">
                     <CollapsibleTrigger as-child>
-                        <Button variant="ghost" class="w-full justify-between" type="button">
+                        <Button
+                            variant="ghost"
+                            class="w-full justify-between"
+                            type="button"
+                        >
                             SEO (optionnel)
                             <ChevronDown
                                 class="size-4 transition-transform"
@@ -98,15 +109,19 @@ function submit() {
                         </div>
 
                         <div class="grid gap-2">
-                            <Label for="meta_description">Meta Description</Label>
+                            <Label for="meta_description"
+                                >Meta Description</Label
+                            >
                             <textarea
                                 id="meta_description"
                                 v-model="form.meta_description"
-                                class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 placeholder="Description SEO"
                                 rows="2"
                             ></textarea>
-                            <InputError :message="form.errors.meta_description" />
+                            <InputError
+                                :message="form.errors.meta_description"
+                            />
                         </div>
                     </CollapsibleContent>
                 </Collapsible>

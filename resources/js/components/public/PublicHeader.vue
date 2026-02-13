@@ -54,7 +54,9 @@ function toggleAppearance(): void {
     <header
         class="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg"
     >
-        <div class="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+        <div
+            class="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8"
+        >
             <!-- Mobile hamburger -->
             <Button
                 variant="ghost"
@@ -67,16 +69,11 @@ function toggleAppearance(): void {
             </Button>
 
             <!-- Logo -->
-            <Link
-                :href="home()"
-                class="flex items-center gap-2.5"
-            >
+            <Link :href="home()" class="flex items-center gap-2.5">
                 <div
                     class="flex size-8 items-center justify-center rounded-lg bg-foreground"
                 >
-                    <AppLogoIcon
-                        class="size-5 fill-current text-background"
-                    />
+                    <AppLogoIcon class="size-5 fill-current text-background" />
                 </div>
                 <span class="text-lg font-bold tracking-tight">Tool</span>
             </Link>
@@ -88,12 +85,7 @@ function toggleAppearance(): void {
                     :key="item.title"
                     :href="item.href"
                     class="relative flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                    :class="
-                        whenCurrentUrl(
-                            item.href,
-                            'text-foreground',
-                        )
-                    "
+                    :class="whenCurrentUrl(item.href, 'text-foreground')"
                 >
                     <component :is="item.icon" class="size-4" />
                     {{ item.title }}
@@ -131,16 +123,12 @@ function toggleAppearance(): void {
                 </Button>
 
                 <!-- Theme toggle -->
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    @click="toggleAppearance"
-                >
+                <Button variant="ghost" size="icon" @click="toggleAppearance">
                     <Sun
-                        class="size-5 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0"
+                        class="size-5 scale-100 rotate-0 transition-transform dark:scale-0 dark:-rotate-90"
                     />
                     <Moon
-                        class="absolute size-5 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100"
+                        class="absolute size-5 scale-0 rotate-90 transition-transform dark:scale-100 dark:rotate-0"
                     />
                     <span class="sr-only">Changer le thème</span>
                 </Button>
@@ -149,8 +137,5 @@ function toggleAppearance(): void {
     </header>
 
     <!-- Mobile menu -->
-    <MobileMenu
-        v-model:open="mobileMenuOpen"
-        :nav-items="navItems"
-    />
+    <MobileMenu v-model:open="mobileMenuOpen" :nav-items="navItems" />
 </template>

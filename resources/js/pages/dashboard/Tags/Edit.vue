@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { type BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { index as tagsIndex, update } from '@/routes/admin/tags';
+import { type BreadcrumbItem } from '@/types';
 
 type Tag = {
     id: string;
@@ -39,7 +39,10 @@ function submit() {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-2xl p-4">
-            <Heading :title="`Modifier « ${tag.name} »`" description="Modifier les informations du tag" />
+            <Heading
+                :title="`Modifier « ${tag.name} »`"
+                description="Modifier les informations du tag"
+            />
 
             <form class="space-y-6" @submit.prevent="submit">
                 <div class="grid gap-2">
@@ -65,7 +68,10 @@ function submit() {
                         leave-active-class="transition ease-in-out"
                         leave-to-class="opacity-0"
                     >
-                        <p v-show="form.recentlySuccessful" class="text-sm text-green-600">
+                        <p
+                            v-show="form.recentlySuccessful"
+                            class="text-sm text-green-600"
+                        >
                             Enregistré.
                         </p>
                     </Transition>

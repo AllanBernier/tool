@@ -2,13 +2,8 @@
 import { router } from '@inertiajs/vue3';
 import { FolderTree, Loader2, Search, Tag, Wrench } from 'lucide-vue-next';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-import {
-    Dialog,
-    DialogContent,
-    DialogOverlay,
-    DialogTitle,
-} from '@/components/ui/dialog';
 import SearchController from '@/actions/App/Http/Controllers/SearchController';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 
 type SearchResult = {
     type: 'tool' | 'category' | 'tag';
@@ -58,13 +53,25 @@ const groupedResults = computed(() => {
     const groups: { type: string; label: string; items: SearchResult[] }[] = [];
 
     if (results.value.tools.length > 0) {
-        groups.push({ type: 'tool', label: labelMap.tool, items: results.value.tools });
+        groups.push({
+            type: 'tool',
+            label: labelMap.tool,
+            items: results.value.tools,
+        });
     }
     if (results.value.categories.length > 0) {
-        groups.push({ type: 'category', label: labelMap.category, items: results.value.categories });
+        groups.push({
+            type: 'category',
+            label: labelMap.category,
+            items: results.value.categories,
+        });
     }
     if (results.value.tags.length > 0) {
-        groups.push({ type: 'tag', label: labelMap.tag, items: results.value.tags });
+        groups.push({
+            type: 'tag',
+            label: labelMap.tag,
+            items: results.value.tags,
+        });
     }
 
     return groups;
@@ -87,9 +94,12 @@ async function fetchResults(): Promise<void> {
 
     loading.value = true;
     try {
-        const response = await fetch(SearchController.url({ query: { query: q } }), {
-            headers: { Accept: 'application/json' },
-        });
+        const response = await fetch(
+            SearchController.url({ query: { query: q } }),
+            {
+                headers: { Accept: 'application/json' },
+            },
+        );
         results.value = await response.json();
         selectedIndex.value = 0;
     } finally {
@@ -123,7 +133,8 @@ function handleKeydown(event: KeyboardEvent): void {
         selectedIndex.value = total > 0 ? (selectedIndex.value + 1) % total : 0;
     } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        selectedIndex.value = total > 0 ? (selectedIndex.value - 1 + total) % total : 0;
+        selectedIndex.value =
+            total > 0 ? (selectedIndex.value - 1 + total) % total : 0;
     } else if (event.key === 'Enter') {
         event.preventDefault();
         const result = allResults.value[selectedIndex.value];
@@ -215,23 +226,36 @@ defineExpose({ open });
                         v-for="(group, groupIndex) in groupedResults"
                         :key="group.type"
                     >
-                        <div class="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                        <div
+                            class="px-3 py-2 text-xs font-semibold text-muted-foreground"
+                        >
                             {{ group.label }}
                         </div>
                         <button
                             v-for="(result, itemIndex) in group.items"
                             :key="result.slug"
                             class="flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors hover:bg-accent"
-                            :class="{ 'bg-accent': getGlobalIndex(groupIndex, itemIndex) === selectedIndex }"
+                            :class="{
+                                'bg-accent':
+                                    getGlobalIndex(groupIndex, itemIndex) ===
+                                    selectedIndex,
+                            }"
                             @click="navigateTo(result)"
-                            @mouseenter="selectedIndex = getGlobalIndex(groupIndex, itemIndex)"
+                            @mouseenter="
+                                selectedIndex = getGlobalIndex(
+                                    groupIndex,
+                                    itemIndex,
+                                )
+                            "
                         >
                             <component
                                 :is="iconMap[result.type]"
                                 class="size-4 shrink-0 text-muted-foreground"
                             />
                             <div class="min-w-0 flex-1">
-                                <div class="truncate font-medium">{{ result.name }}</div>
+                                <div class="truncate font-medium">
+                                    {{ result.name }}
+                                </div>
                                 <div
                                     v-if="result.description"
                                     class="truncate text-xs text-muted-foreground"
@@ -243,17 +267,28 @@ defineExpose({ open });
                     </div>
                 </template>
             </div>
-            <div class="hidden items-center justify-end gap-3 border-t border-border px-3 py-2 text-xs text-muted-foreground sm:flex">
+            <div
+                class="hidden items-center justify-end gap-3 border-t border-border px-3 py-2 text-xs text-muted-foreground sm:flex"
+            >
                 <span class="flex items-center gap-1">
-                    <kbd class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]">↑↓</kbd>
+                    <kbd
+                        class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]"
+                        >↑↓</kbd
+                    >
                     naviguer
                 </span>
                 <span class="flex items-center gap-1">
-                    <kbd class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]">↵</kbd>
+                    <kbd
+                        class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]"
+                        >↵</kbd
+                    >
                     ouvrir
                 </span>
                 <span class="flex items-center gap-1">
-                    <kbd class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]">esc</kbd>
+                    <kbd
+                        class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]"
+                        >esc</kbd
+                    >
                     fermer
                 </span>
             </div>

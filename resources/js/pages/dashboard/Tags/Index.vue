@@ -2,7 +2,6 @@
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { Plus, Pencil, Trash2 } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
-import AppLayout from '@/layouts/AppLayout.vue';
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,8 +12,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { create, edit, destroy } from '@/routes/admin/tags';
 import { type BreadcrumbItem } from '@/types';
-import { index as tagsIndex, create, edit, destroy } from '@/routes/admin/tags';
 
 type Tag = {
     id: string;
@@ -36,7 +36,7 @@ type PaginatedTags = {
     last_page: number;
 };
 
-const props = defineProps<{
+defineProps<{
     tags: PaginatedTags;
 }>();
 
@@ -104,9 +104,13 @@ function performDelete() {
                 {{ flash.error }}
             </div>
 
-            <div class="overflow-hidden rounded-lg border border-sidebar-border/70 dark:border-sidebar-border">
+            <div
+                class="overflow-hidden rounded-lg border border-sidebar-border/70 dark:border-sidebar-border"
+            >
                 <table class="w-full text-left text-sm">
-                    <thead class="border-b border-sidebar-border/70 bg-muted/50 dark:border-sidebar-border">
+                    <thead
+                        class="border-b border-sidebar-border/70 bg-muted/50 dark:border-sidebar-border"
+                    >
                         <tr>
                             <th class="px-4 py-3">Nom</th>
                             <th class="px-4 py-3">Slug</th>
@@ -130,8 +134,14 @@ function performDelete() {
                                 {{ tag.tools_count }}
                             </td>
                             <td class="px-4 py-3 text-right">
-                                <div class="flex items-center justify-end gap-2">
-                                    <Button variant="ghost" size="icon" as-child>
+                                <div
+                                    class="flex items-center justify-end gap-2"
+                                >
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        as-child
+                                    >
                                         <Link :href="edit.url(tag.slug)">
                                             <Pencil class="size-4" />
                                         </Link>
@@ -147,7 +157,10 @@ function performDelete() {
                             </td>
                         </tr>
                         <tr v-if="tags.data.length === 0">
-                            <td colspan="4" class="px-4 py-8 text-center text-muted-foreground">
+                            <td
+                                colspan="4"
+                                class="px-4 py-8 text-center text-muted-foreground"
+                            >
                                 Aucun tag trouvé.
                             </td>
                         </tr>
@@ -155,14 +168,20 @@ function performDelete() {
                 </table>
             </div>
 
-            <div v-if="tags.last_page > 1" class="flex items-center justify-center gap-1">
+            <div
+                v-if="tags.last_page > 1"
+                class="flex items-center justify-center gap-1"
+            >
                 <template v-for="link in tags.links" :key="link.label">
                     <Button
                         v-if="link.url"
                         variant="outline"
                         size="sm"
                         as-child
-                        :class="{ 'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground': link.active }"
+                        :class="{
+                            'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground':
+                                link.active,
+                        }"
                     >
                         <Link :href="link.url" v-html="link.label" />
                     </Button>
@@ -182,13 +201,18 @@ function performDelete() {
                 <DialogHeader>
                     <DialogTitle>Supprimer le tag</DialogTitle>
                     <DialogDescription>
-                        Êtes-vous sûr de vouloir supprimer le tag
-                        « {{ tagToDelete?.name }} » ? Cette action est irréversible.
+                        Êtes-vous sûr de vouloir supprimer le tag «
+                        {{ tagToDelete?.name }} » ? Cette action est
+                        irréversible.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <Button variant="outline" @click="deleteDialog = false">Annuler</Button>
-                    <Button variant="destructive" @click="performDelete">Supprimer</Button>
+                    <Button variant="outline" @click="deleteDialog = false"
+                        >Annuler</Button
+                    >
+                    <Button variant="destructive" @click="performDelete"
+                        >Supprimer</Button
+                    >
                 </DialogFooter>
             </DialogContent>
         </Dialog>

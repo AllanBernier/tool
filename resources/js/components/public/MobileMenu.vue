@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { X } from 'lucide-vue-next';
 import { watch } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import { Button } from '@/components/ui/button';
 import {
     Sheet,
     SheetClose,
@@ -27,8 +25,7 @@ const emit = defineEmits<{
 
 const { whenCurrentUrl } = useCurrentUrl();
 
-const activeItemStyles =
-    'bg-accent text-accent-foreground font-semibold';
+const activeItemStyles = 'bg-accent text-accent-foreground font-semibold';
 
 watch(
     () => props.open,
@@ -50,7 +47,11 @@ watch(
                 </Link>
             </SheetHeader>
             <nav class="flex flex-1 flex-col gap-1 py-6">
-                <SheetClose :as-child="true" v-for="item in navItems" :key="item.title">
+                <SheetClose
+                    :as-child="true"
+                    v-for="item in navItems"
+                    :key="item.title"
+                >
                     <Link
                         :href="item.href"
                         class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent"

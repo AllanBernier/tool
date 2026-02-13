@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ExternalLink } from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppHead from '@/components/AppHead.vue';
 import type { SeoMeta } from '@/components/AppHead.vue';
 import JsonLd from '@/components/JsonLd.vue';
@@ -16,7 +17,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Comparison, Tool } from '@/types';
-import { computed } from 'vue';
 
 const props = defineProps<{
     seo: SeoMeta;
@@ -40,7 +40,12 @@ const comparisons = [
 
 const breadcrumbs = computed(() => [
     ...(props.tool.category
-        ? [{ label: props.tool.category.name, href: `/categorie/${props.tool.category.slug}` }]
+        ? [
+              {
+                  label: props.tool.category.name,
+                  href: `/categorie/${props.tool.category.slug}`,
+              },
+          ]
         : []),
     { label: props.tool.name },
 ]);
@@ -54,7 +59,8 @@ const jsonLdSchemas = computed(() => {
         name: props.tool.name,
         url: props.seo.canonical,
         description: props.tool.description,
-        applicationCategory: props.tool.category?.name ?? 'DeveloperApplication',
+        applicationCategory:
+            props.tool.category?.name ?? 'DeveloperApplication',
     };
     if (props.tool.platforms?.length) {
         softwareApp.operatingSystem = props.tool.platforms.join(', ');
@@ -88,14 +94,24 @@ const jsonLdSchemas = computed(() => {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Accueil', item: props.seo.canonical.replace(/\/outil\/.*/, '') },
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Accueil',
+                item: props.seo.canonical.replace(/\/outil\/.*/, ''),
+            },
             ...(props.tool.category
-                ? [{
-                    '@type': 'ListItem',
-                    position: 2,
-                    name: props.tool.category.name,
-                    item: props.seo.canonical.replace(/\/outil\/.*/, `/categorie/${props.tool.category.slug}`),
-                }]
+                ? [
+                      {
+                          '@type': 'ListItem',
+                          position: 2,
+                          name: props.tool.category.name,
+                          item: props.seo.canonical.replace(
+                              /\/outil\/.*/,
+                              `/categorie/${props.tool.category.slug}`,
+                          ),
+                      },
+                  ]
                 : []),
             {
                 '@type': 'ListItem',
@@ -119,8 +135,12 @@ const jsonLdSchemas = computed(() => {
             <PublicBreadcrumbs :items="breadcrumbs" />
 
             <!-- Header -->
-            <div class="mb-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center">
-                <div class="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted/50 sm:size-24">
+            <div
+                class="mb-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center"
+            >
+                <div
+                    class="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted/50 sm:size-24"
+                >
                     <img
                         :src="tool.logo_url"
                         :alt="`Logo ${tool.name}`"
@@ -131,21 +151,38 @@ const jsonLdSchemas = computed(() => {
                 </div>
                 <div class="flex-1">
                     <div class="flex flex-wrap items-center gap-3">
-                        <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                        <h1
+                            class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+                        >
                             {{ tool.name }}
                         </h1>
-                        <Link v-if="tool.category" :href="`/categorie/${tool.category.slug}`">
+                        <Link
+                            v-if="tool.category"
+                            :href="`/categorie/${tool.category.slug}`"
+                        >
                             <Badge variant="secondary" class="text-sm">
                                 {{ tool.category.name }}
                             </Badge>
                         </Link>
                     </div>
-                    <p v-if="tool.description" class="mt-3 text-lg text-muted-foreground">
+                    <p
+                        v-if="tool.description"
+                        class="mt-3 text-lg text-muted-foreground"
+                    >
                         {{ tool.description }}
                     </p>
                     <div class="mt-4">
-                        <Button v-if="tool.url" as-child size="sm" class="gap-2">
-                            <a :href="tool.url" target="_blank" rel="noopener noreferrer">
+                        <Button
+                            v-if="tool.url"
+                            as-child
+                            size="sm"
+                            class="gap-2"
+                        >
+                            <a
+                                :href="tool.url"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 Visiter le site
                                 <ExternalLink class="size-4" />
                             </a>
@@ -176,7 +213,9 @@ const jsonLdSchemas = computed(() => {
                                 :key="index"
                                 class="flex items-start gap-2 text-sm text-foreground"
                             >
-                                <span class="mt-1 size-1.5 shrink-0 rounded-full bg-primary" />
+                                <span
+                                    class="mt-1 size-1.5 shrink-0 rounded-full bg-primary"
+                                />
                                 {{ feature }}
                             </li>
                         </ul>
@@ -187,7 +226,10 @@ const jsonLdSchemas = computed(() => {
                         <h2 class="mb-4 text-xl font-semibold text-foreground">
                             Avantages et inconvénients
                         </h2>
-                        <ProsCons :pros="tool.pros ?? []" :cons="tool.cons ?? []" />
+                        <ProsCons
+                            :pros="tool.pros ?? []"
+                            :cons="tool.cons ?? []"
+                        />
                     </section>
 
                     <!-- Pricing -->
@@ -251,7 +293,9 @@ const jsonLdSchemas = computed(() => {
                             >
                                 <span class="font-medium">{{ tool.name }}</span>
                                 <span class="text-muted-foreground">vs</span>
-                                <span class="font-medium">{{ comparison.otherTool.name }}</span>
+                                <span class="font-medium">{{
+                                    comparison.otherTool.name
+                                }}</span>
                             </Link>
                         </div>
                     </section>
@@ -259,11 +303,18 @@ const jsonLdSchemas = computed(() => {
             </div>
 
             <!-- Alternatives -->
-            <section v-if="tool.alternatives?.length" class="mt-16 border-t border-border pt-12">
-                <h2 class="mb-6 text-2xl font-bold tracking-tight text-foreground">
+            <section
+                v-if="tool.alternatives?.length"
+                class="mt-16 border-t border-border pt-12"
+            >
+                <h2
+                    class="mb-6 text-2xl font-bold tracking-tight text-foreground"
+                >
                     Alternatives à {{ tool.name }}
                 </h2>
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div
+                    class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                >
                     <ToolCard
                         v-for="alt in tool.alternatives"
                         :key="alt.id"

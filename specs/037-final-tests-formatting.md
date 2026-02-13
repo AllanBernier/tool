@@ -1,5 +1,7 @@
 # Spec 037: Final Tests & Formatting
 
+## Status: COMPLETE
+
 ## Priority: P2
 
 ## Description
