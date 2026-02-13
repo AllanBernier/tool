@@ -20,7 +20,7 @@ class PublicComparisonController extends Controller
             ->withQueryString();
 
         return Inertia::render('Public/Comparisons/Index', [
-            'seo' => SeoMeta::forComparisonsIndex($request->integer('page', 1)),
+            'seo' => SeoMeta::forComparisonsIndex($request->integer('page', 1), $comparisons->lastPage()),
             'comparisons' => $comparisons,
         ]);
     }

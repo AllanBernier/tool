@@ -20,7 +20,7 @@ class PublicTagController extends Controller
             ->withQueryString();
 
         return Inertia::render('Public/Tags/Show', [
-            'seo' => SeoMeta::forTag($tag, $request->integer('page', 1)),
+            'seo' => SeoMeta::forTag($tag, $request->integer('page', 1), $tools->lastPage()),
             'tag' => $tag,
             'tools' => $tools,
         ]);

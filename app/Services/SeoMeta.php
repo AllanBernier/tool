@@ -43,7 +43,7 @@ class SeoMeta
     /**
      * @return array{title: string, description: string, canonical: string, ogType: string, ogImage: string|null}
      */
-    public static function forToolsIndex(int $page = 1): array
+    public static function forToolsIndex(int $page = 1, int $lastPage = 1): array
     {
         $title = 'Tous les outils';
         if ($page > 1) {
@@ -56,13 +56,14 @@ class SeoMeta
             'canonical' => route('tools.index', $page > 1 ? ['page' => $page] : []),
             'ogType' => 'website',
             'ogImage' => asset('images/og-default.png'),
+            ...self::paginationLinks(route('tools.index'), $page, $lastPage),
         ];
     }
 
     /**
      * @return array{title: string, description: string, canonical: string, ogType: string, ogImage: string|null}
      */
-    public static function forCategory(Category $category, int $page = 1): array
+    public static function forCategory(Category $category, int $page = 1, int $lastPage = 1): array
     {
         $title = $category->meta_title ?: "{$category->name} — Meilleurs outils | Tool";
         if ($page > 1) {
@@ -76,6 +77,7 @@ class SeoMeta
             'canonical' => route('categories.show', array_merge([$category], $page > 1 ? ['page' => $page] : [])),
             'ogType' => 'website',
             'ogImage' => asset('images/og-default.png'),
+            ...self::paginationLinks(route('categories.show', $category), $page, $lastPage),
         ];
     }
 
@@ -113,7 +115,7 @@ class SeoMeta
     /**
      * @return array{title: string, description: string, canonical: string, ogType: string, ogImage: string|null}
      */
-    public static function forComparisonsIndex(int $page = 1): array
+    public static function forComparisonsIndex(int $page = 1, int $lastPage = 1): array
     {
         $title = 'Tous les comparatifs';
         if ($page > 1) {
@@ -126,13 +128,14 @@ class SeoMeta
             'canonical' => route('comparisons.index', $page > 1 ? ['page' => $page] : []),
             'ogType' => 'website',
             'ogImage' => asset('images/og-default.png'),
+            ...self::paginationLinks(route('comparisons.index'), $page, $lastPage),
         ];
     }
 
     /**
      * @return array{title: string, description: string, canonical: string, ogType: string, ogImage: string|null}
      */
-    public static function forTag(Tag $tag, int $page = 1): array
+    public static function forTag(Tag $tag, int $page = 1, int $lastPage = 1): array
     {
         $title = "Outils {$tag->name} | Tool";
         if ($page > 1) {
@@ -145,6 +148,18 @@ class SeoMeta
             'canonical' => route('tags.show', array_merge([$tag], $page > 1 ? ['page' => $page] : [])),
             'ogType' => 'website',
             'ogImage' => asset('images/og-default.png'),
+            ...self::paginationLinks(route('tags.show', $tag), $page, $lastPage),
+        ];
+    }
+
+    /**
+     * @return array{paginationPrev: string|null, paginationNext: string|null}
+     */
+    private static function paginationLinks(string $baseUrl, int $page, int $lastPage): array
+    {
+        return [
+            'paginationPrev' => $page > 1 ? $baseUrl.($page > 2 ? '?page='.($page - 1) : '') : null,
+            'paginationNext' => $page < $lastPage ? $baseUrl.'?page='.($page + 1) : null,
         ];
     }
 

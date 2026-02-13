@@ -28,7 +28,7 @@ class PublicToolController extends Controller
             ->get(['id', 'name', 'slug']);
 
         return Inertia::render('Public/Tools/Index', [
-            'seo' => SeoMeta::forToolsIndex($request->integer('page', 1)),
+            'seo' => SeoMeta::forToolsIndex($request->integer('page', 1), $tools->lastPage()),
             'tools' => $tools,
             'categories' => $categories,
             'filters' => [

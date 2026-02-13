@@ -68,6 +68,8 @@ test('tools index page has seo meta prop', function () {
                 ->has('canonical')
                 ->where('ogType', 'website')
                 ->has('ogImage')
+                ->has('paginationPrev')
+                ->has('paginationNext')
             )
         );
 });
@@ -99,6 +101,8 @@ test('category show page has seo meta prop', function () {
                 ->has('canonical')
                 ->where('ogType', 'website')
                 ->has('ogImage')
+                ->has('paginationPrev')
+                ->has('paginationNext')
             )
         );
 });
@@ -176,6 +180,8 @@ test('comparisons index page has seo meta prop', function () {
                 ->has('canonical')
                 ->where('ogType', 'website')
                 ->has('ogImage')
+                ->has('paginationPrev')
+                ->has('paginationNext')
             )
         );
 });
@@ -195,6 +201,8 @@ test('tag show page has seo meta prop', function () {
                 ->has('canonical')
                 ->where('ogType', 'website')
                 ->has('ogImage')
+                ->has('paginationPrev')
+                ->has('paginationNext')
             )
         );
 });

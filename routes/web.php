@@ -7,6 +7,7 @@ use App\Http\Controllers\PublicComparisonController;
 use App\Http\Controllers\PublicTagController;
 use App\Http\Controllers\PublicToolController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,6 +25,8 @@ Route::get('/comparatifs', [PublicComparisonController::class, 'index'])->name('
 Route::get('/comparatif/{comparison:slug}', [PublicComparisonController::class, 'show'])->name('comparisons.show');
 
 Route::get('/tag/{tag:slug}', [PublicTagController::class, 'show'])->name('tags.show');
+
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 Route::middleware(['auth', 'verified', \App\Http\Middleware\DisableSsrForAdmin::class])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');

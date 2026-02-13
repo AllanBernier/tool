@@ -1,5 +1,7 @@
 # Spec 032: Sitemap & Robots
 
+## Status: COMPLETE
+
 ## Priority: P1
 
 ## Description

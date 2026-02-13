@@ -8,6 +8,8 @@ export type SeoMeta = {
     canonical: string;
     ogType: string;
     ogImage: string | null;
+    paginationPrev?: string | null;
+    paginationNext?: string | null;
 };
 
 const props = defineProps<{
@@ -32,5 +34,7 @@ const siteName = computed(() => (page.props.name as string) || 'Tool');
         <meta head-key="twitter:title" name="twitter:title" :content="seo.title" />
         <meta head-key="twitter:description" name="twitter:description" :content="seo.description" />
         <meta v-if="seo.ogImage" head-key="twitter:image" name="twitter:image" :content="seo.ogImage" />
+        <link v-if="seo.paginationPrev" head-key="prev" rel="prev" :href="seo.paginationPrev" />
+        <link v-if="seo.paginationNext" head-key="next" rel="next" :href="seo.paginationNext" />
     </Head>
 </template>

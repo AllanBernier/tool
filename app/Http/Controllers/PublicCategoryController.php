@@ -41,7 +41,7 @@ class PublicCategoryController extends Controller
             ->get(['id', 'name', 'slug']);
 
         return Inertia::render('Public/Categories/Show', [
-            'seo' => SeoMeta::forCategory($category, $request->integer('page', 1)),
+            'seo' => SeoMeta::forCategory($category, $request->integer('page', 1), $tools->lastPage()),
             'category' => $category,
             'tools' => $tools,
             'tags' => $tags,
