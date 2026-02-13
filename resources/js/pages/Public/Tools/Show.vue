@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ExternalLink } from 'lucide-vue-next';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import FaqAccordion from '@/components/public/FaqAccordion.vue';
 import MarkdownContent from '@/components/public/MarkdownContent.vue';
 import PlatformBadge from '@/components/public/PlatformBadge.vue';
@@ -14,6 +16,7 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Comparison, Tool } from '@/types';
 
 const props = defineProps<{
+    seo: SeoMeta;
     tool: Tool & {
         alternatives: Tool[];
         comparisons_as_tool_a: (Comparison & { tool_b: Tool })[];
@@ -35,7 +38,7 @@ const comparisons = [
 
 <template>
     <PublicLayout>
-        <Head :title="tool.meta_title || tool.name" />
+        <AppHead :seo="seo" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { TagIcon } from 'lucide-vue-next';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Tag, Tool } from '@/types';
@@ -14,6 +16,7 @@ type PaginatedTools = {
 };
 
 defineProps<{
+    seo: SeoMeta;
     tag: Tag;
     tools: PaginatedTools;
 }>();
@@ -21,7 +24,7 @@ defineProps<{
 
 <template>
     <PublicLayout>
-        <Head :title="tag.name" />
+        <AppHead :seo="seo" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->

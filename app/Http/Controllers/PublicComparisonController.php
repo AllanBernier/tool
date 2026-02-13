@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comparison;
+use App\Services\SeoMeta;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class PublicComparisonController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $comparisons = Comparison::query()
             ->published()
@@ -18,6 +20,7 @@ class PublicComparisonController extends Controller
             ->withQueryString();
 
         return Inertia::render('Public/Comparisons/Index', [
+            'seo' => SeoMeta::forComparisonsIndex($request->integer('page', 1)),
             'comparisons' => $comparisons,
         ]);
     }
@@ -34,6 +37,7 @@ class PublicComparisonController extends Controller
         ]);
 
         return Inertia::render('Public/Comparisons/Show', [
+            'seo' => SeoMeta::forComparison($comparison),
             'comparison' => $comparison,
         ]);
     }

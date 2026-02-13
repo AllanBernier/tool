@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { Search, SlidersHorizontal } from 'lucide-vue-next';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,6 +18,7 @@ type PaginatedTools = {
 };
 
 const props = defineProps<{
+    seo: SeoMeta;
     tools: PaginatedTools;
     categories: Pick<Category, 'id' | 'name' | 'slug'>[];
     filters: {
@@ -67,7 +70,7 @@ const platforms = [
 
 <template>
     <PublicLayout>
-        <Head title="Tous les outils" />
+        <AppHead :seo="seo" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->

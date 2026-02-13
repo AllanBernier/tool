@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Tool;
+use App\Services\SeoMeta;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,6 +28,7 @@ class PublicToolController extends Controller
             ->get(['id', 'name', 'slug']);
 
         return Inertia::render('Public/Tools/Index', [
+            'seo' => SeoMeta::forToolsIndex($request->integer('page', 1)),
             'tools' => $tools,
             'categories' => $categories,
             'filters' => [
@@ -53,6 +55,7 @@ class PublicToolController extends Controller
         ]);
 
         return Inertia::render('Public/Tools/Show', [
+            'seo' => SeoMeta::forTool($tool),
             'tool' => $tool,
         ]);
     }

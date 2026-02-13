@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Comparison;
 use App\Models\Tag;
 use App\Models\Tool;
+use App\Services\SeoMeta;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,6 +15,7 @@ class HomeController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('Welcome', [
+            'seo' => SeoMeta::forHomepage(),
             'popularTools' => Tool::query()
                 ->published()
                 ->with(['category', 'tags'])

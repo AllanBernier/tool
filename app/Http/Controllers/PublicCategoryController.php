@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Tag;
+use App\Services\SeoMeta;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,6 +19,7 @@ class PublicCategoryController extends Controller
             ->get();
 
         return Inertia::render('Public/Categories/Index', [
+            'seo' => SeoMeta::forCategoriesIndex(),
             'categories' => $categories,
         ]);
     }
@@ -39,6 +41,7 @@ class PublicCategoryController extends Controller
             ->get(['id', 'name', 'slug']);
 
         return Inertia::render('Public/Categories/Show', [
+            'seo' => SeoMeta::forCategory($category, $request->integer('page', 1)),
             'category' => $category,
             'tools' => $tools,
             'tags' => $tags,

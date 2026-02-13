@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ExternalLink } from 'lucide-vue-next';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import MarkdownContent from '@/components/public/MarkdownContent.vue';
 import PricingTable from '@/components/public/PricingTable.vue';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +11,7 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Comparison, Tool } from '@/types';
 
 const props = defineProps<{
+    seo: SeoMeta;
     comparison: Comparison & {
         tool_a: Tool;
         tool_b: Tool;
@@ -32,7 +35,7 @@ const sharedFeatures = (() => {
 
 <template>
     <PublicLayout>
-        <Head :title="comparison.meta_title || `${comparison.tool_a.name} vs ${comparison.tool_b.name}`" />
+        <AppHead :seo="seo" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->

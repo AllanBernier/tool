@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { SlidersHorizontal } from 'lucide-vue-next';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import ComparisonCard from '@/components/public/ComparisonCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Comparison } from '@/types';
@@ -13,13 +15,14 @@ type PaginatedComparisons = {
 };
 
 defineProps<{
+    seo: SeoMeta;
     comparisons: PaginatedComparisons;
 }>();
 </script>
 
 <template>
     <PublicLayout>
-        <Head title="Tous les comparatifs" />
+        <AppHead :seo="seo" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->

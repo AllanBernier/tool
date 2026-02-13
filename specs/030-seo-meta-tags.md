@@ -1,5 +1,7 @@
 # Spec 030: SEO Meta Tags
 
+## Status: COMPLETE
+
 ## Priority: P1
 
 ## Description

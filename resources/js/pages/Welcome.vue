@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ArrowRight, Sparkles } from 'lucide-vue-next';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import CategoryCard from '@/components/public/CategoryCard.vue';
 import ComparisonCard from '@/components/public/ComparisonCard.vue';
 import TagBadge from '@/components/public/TagBadge.vue';
@@ -10,6 +12,7 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Category, Comparison, Tag, Tool } from '@/types';
 
 defineProps<{
+    seo: SeoMeta;
     popularTools: Tool[];
     trendingComparisons: Comparison[];
     categories: Category[];
@@ -19,7 +22,7 @@ defineProps<{
 
 <template>
     <PublicLayout>
-        <Head title="Découvrez les meilleurs outils pour développeurs" />
+        <AppHead :seo="seo" />
 
         <!-- Hero Section -->
         <section class="relative overflow-hidden border-b border-border/60">

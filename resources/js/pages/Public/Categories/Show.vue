@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { SlidersHorizontal } from 'lucide-vue-next';
 import * as icons from 'lucide-vue-next';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import CategoryCard from '@/components/public/CategoryCard.vue';
 import ToolCard from '@/components/public/ToolCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
@@ -16,6 +18,7 @@ type PaginatedTools = {
 };
 
 const props = defineProps<{
+    seo: SeoMeta;
     category: Category;
     tools: PaginatedTools;
     tags: Pick<Tag, 'id' | 'name' | 'slug'>[];
@@ -64,7 +67,7 @@ const iconComponent = computed<Component | null>(() => {
 
 <template>
     <PublicLayout>
-        <Head :title="category.meta_title || category.name" />
+        <AppHead :seo="seo" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->

@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import AppHead from '@/components/AppHead.vue';
+import type { SeoMeta } from '@/components/AppHead.vue';
 import CategoryCard from '@/components/public/CategoryCard.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { Category } from '@/types';
 
 defineProps<{
+    seo: SeoMeta;
     categories: (Category & { tools_count: number })[];
 }>();
 </script>
 
 <template>
     <PublicLayout>
-        <Head title="Toutes les catégories" />
+        <AppHead :seo="seo" />
 
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
             <!-- Header -->
